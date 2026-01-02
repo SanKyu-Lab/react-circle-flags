@@ -82,11 +82,15 @@ vite: {
 }
 ```
 
-## License
-
-This project is part of the `@sankyu/react-circle-flags` monorepo. See the parent package for license information.
-
 ## Related
 
 - **[@sankyu/react-circle-flags](../)**
 - **[circle-flags](https://github.com/HatScripts/circle-flags)** - Original SVG flag collection
+
+## License
+
+This website is licensed under the GPL-3.0 License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+Copyright © 2026 [Sankyu Lab](https://github.com/SanKyu-Lab)
