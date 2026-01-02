@@ -1,3 +1,14 @@
+## [1.3.3](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.3.2...v1.3.3) (2026-01-02)
+
+### Features
+
+* **website:** Add related links for GitHub and npm in config ([432b878](https://github.com/SanKyu-Lab/react-circle-flags/commit/432b87814417ac561e2b895a2cd5928fc2c402dc))
+* **website:** Update site title and logo and improve layout components ([c01d904](https://github.com/SanKyu-Lab/react-circle-flags/commit/c01d904c1c595d37aac0217ac103d8a266bea4e4))
+
+### Bug Fixes
+
+* **website:** Make links base-aware for github pages ([9ff60e7](https://github.com/SanKyu-Lab/react-circle-flags/commit/9ff60e7e537eff065182fc66dd18f32f10015067))
+* **website:** Update license section in README.md ([8928116](https://github.com/SanKyu-Lab/react-circle-flags/commit/8928116d072e3a97f8a3a6f76f93a3cdb62920d4))
 ## [1.3.2](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.3.1...v1.3.2) (2026-01-02)
 
 ### Bug Fixes
