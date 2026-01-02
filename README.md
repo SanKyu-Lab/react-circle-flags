@@ -2,9 +2,9 @@
   <img src="./website/public/favicon.svg" alt="@sankyu/react-circle-flags" width="120" height="120" />
 </div>
 
-# @sankyu/react-circle-flags
-
 <div align="center">
+
+# @sankyu/react-circle-flags
 
 [![npm version](https://img.shields.io/npm/v/%40sankyu%2Freact-circle-flags?style=flat-square&label=%40sankyu%2Freact-circle-flags)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![npm downloads](https://img.shields.io/npm/dm/@sankyu/react-circle-flags.svg?style=flat-square&label=NPM%20Downloads)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/@sankyu/react-circle-flags?style=flat-square&label=Bundle%20Size)](https://bundlephobia.com/package/@sankyu/react-circle-flags)
 
