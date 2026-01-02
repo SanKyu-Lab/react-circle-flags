@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import auroraX from '@shikijs/themes/aurora-x'
 import { createHighlighter } from 'shiki'
 
 const highlighterPromise = createHighlighter({
-  themes: ['github-dark'],
+  themes: [auroraX],
   langs: ['tsx', 'typescript', 'javascript', 'bash', 'shell', 'json', 'markdown', 'plaintext'],
 })
 
@@ -16,7 +17,7 @@ export function useShikiHtml(code: string, lang: string) {
         const highlighter = await highlighterPromise
         const loadedLanguages = highlighter.getLoadedLanguages()
         const language = loadedLanguages.includes(lang) ? lang : 'plaintext'
-        const highlighted = highlighter.codeToHtml(code, { lang: language, theme: 'github-dark' })
+        const highlighted = highlighter.codeToHtml(code, { lang: language, theme: auroraX })
         if (!cancelled) {
           setHtml(highlighted)
         }

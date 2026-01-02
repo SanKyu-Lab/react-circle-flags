@@ -93,6 +93,7 @@ function Header() {
   const activeCommand =
     installCommands.find(entry => entry.id === activeManager) ?? installCommands[0]
   const commandText = activeCommand?.command ?? ''
+  const commandHtml = useShikiHtml(commandText ? `$ ${commandText}` : '', 'bash')
 
   const handleCopy = async () => {
     if (!commandText) return
@@ -118,9 +119,16 @@ function Header() {
         />
         {commandText ? (
           <div className="relative rounded-xl border border-(--border-weak) bg-(--overlay-soft) px-4 py-3">
-            <pre className="overflow-x-auto text-sm text-(--ink)/90">
-              <code className="whitespace-pre text-left">$ {commandText}</code>
-            </pre>
+            {commandHtml ? (
+              <div
+                className="overflow-x-auto text-sm"
+                dangerouslySetInnerHTML={{ __html: commandHtml }}
+              />
+            ) : (
+              <pre className="overflow-x-auto text-sm text-(--ink)/90">
+                <code className="whitespace-pre text-left">$ {commandText}</code>
+              </pre>
+            )}
             <button
               type="button"
               aria-label="Copy install command"
