@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.0.2...v1.1.0) (2026-01-02)
+
+
+### Features
+
+* **test:** Add additional flag components and utility tests ([7331a81](https://github.com/SanKyu-Lab/react-circle-flags/commit/7331a81ac23a12547eaa7cf1430a23c4a72f7b5c))
+
 ## [1.0.2](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.0.1...v1.0.2) (2026-01-02)
 
 
