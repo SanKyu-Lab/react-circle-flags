@@ -1,8 +1,9 @@
-## [1.2.1](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.2.0...v1.2.1) (2026-01-02)
+## [1.2.2](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.2.0...v1.2.2) (2026-01-02)
 
 ### Features
 
 * **ci:** Bump version to 1.2.1 ([a6a0830](https://github.com/SanKyu-Lab/react-circle-flags/commit/a6a0830fa7b31ac467abe06280e18a92ced628a2))
+* **ci:** Bump version to 1.2.2 ([c86b882](https://github.com/SanKyu-Lab/react-circle-flags/commit/c86b882632d56905a79549ebea7937e4b9eca8bb))
 * **ci:** Update CI workflows to allow manual triggers and checks ([aa56890](https://github.com/SanKyu-Lab/react-circle-flags/commit/aa56890963dbb9a38d4b5ab4a31962c5afdec500))
 * **postbuild:** Remove redundant index.d.cts file after generation ([0560c0f](https://github.com/SanKyu-Lab/react-circle-flags/commit/0560c0ffdb984be785b493215c4fac7322c51643))
 ## [1.2.0](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.1.1...v1.2.0) (2026-01-02)
