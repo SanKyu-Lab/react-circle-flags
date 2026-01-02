@@ -10,7 +10,7 @@
 
 [![TypeScript Supported](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![React Ready](https://img.shields.io/badge/React-%3E%3D16.0.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=opensourceinitiative)](./LICENSE)
 
-:star: **Star us on <a href="https://github.com/Sankyu-Lab/react-circle-flags" target="_blank">GitHub</a>** | :bug: **Report Issues <a href="https://github.com/Sankyu-Lab/react-circle-flags/issues" target="_blank">here</a>**
+:star: **Star us on [GitHub](https://github.com/Sankyu-Lab/react-circle-flags)** | :bug: **Report Issues [here](https://github.com/Sankyu-Lab/react-circle-flags/issues)**
 
 </div>
 
@@ -24,14 +24,14 @@ This library provides **400+ circular SVG flag components** with **Full-TypeScri
 
 Perfect for applications that need fast, crisp country flags without external image requests.
 
-:rocket: **Explore the <a href="https://sankyu-lab.github.io/react-circle-flags/browse" target="_blank">Demo Gallery</a>** | :book: **Read the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/" target="_blank">Documentation</a>**
+:rocket: **Explore the [Demo Gallery](https://sankyu-lab.github.io/react-circle-flags/browse)** | :book: **Read the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/)**
 
 ---
 
 ## ✨ Key Features
 
 > [!TIP]
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/#-key-features" target="_blank">Documentation</a>.
+> For more information, you may refer to the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/#-key-features).
 
 - 🎯 **Tree-shakable** - Only bundle the flags you use
 - 📦 **TypeScript** - Full type definitions included
@@ -44,7 +44,7 @@ Perfect for applications that need fast, crisp country flags without external im
 ## 📦 Installation
 
 > [!TIP]
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/installation/" target="_blank">Installation Guide</a>.
+> For more information, you may refer to the [Installation Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/installation/).
 
 ```bash
 npm install @sankyu/react-circle-flags
@@ -59,7 +59,7 @@ bun add @sankyu/react-circle-flags
 ## 🚀 Usage
 
 > [!TIP]
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/" target="_blank">Usage Guide</a>.
+> For more information, you may refer to the [Usage Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
 
 ### Import individual flags (Recommended)
 
@@ -100,7 +100,7 @@ export default function StyledFlag() {
 > ⚠️ Using `DynamicFlag` or `import * as Flags` will pull all flag components into the bundle, which can reduce tree-shaking efficiency and increase bundle size.
 
 > [!TIP]
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/" target="_blank">Dynamic Flag Selection</a> section in the documentation.
+> For more information, you may refer to the [Dynamic Flag Selection](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/) section in the documentation.
 
 ```tsx
 import { DynamicFlag } from '@sankyu/react-circle-flags'
@@ -144,18 +144,18 @@ Each flag is exported with the pattern `Flag{PascalCase ISO_CODE}` (for example,
 - `FlagJp` - Japan
 - ... and many more
 
-See the <a href="https://sankyu-lab.github.io/react-circle-flags/browse" target="_blank">Full list of flags</a> in the circle-flags gallery.
+See the [Full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the circle-flags gallery.
 
 ## 🎨 Styling
 
 > [!TIP]
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/styling/" target="_blank">Styling Guide</a>.
+> For more information, you may refer to the [Styling Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/styling/).
 
 ## 🔧 TypeScript
 
 Full TypeScript support is included out of the box.
 
-> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/typescript/" target="_blank">TypeScript Guide</a>.
+> For more information, you may refer to the [TypeScript Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/typescript/).
 
 ## 📖 Examples
 
@@ -204,11 +204,11 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## 📄 License
 
-`@sankyu/react-circle-flags` is licensed under the MIT License, © <a href="https://github.com/Sankyu-Lab" target="_blank">Sankyu Lab</a>
+`@sankyu/react-circle-flags` is licensed under the MIT License, © [Sankyu Lab](https://github.com/Sankyu-Lab)
 
-[website](./website/) is licensed under the GPL-3.0 License, © <a href="https://github.com/Sankyu-Lab" target="_blank">Sankyu Lab</a>
+[website](./website/) is licensed under the GPL-3.0 License, © [Sankyu Lab](https://github.com/Sankyu-Lab)
 
 ## 🙏 Credits
 
-- Flag designs from <a href="https://github.com/HatScripts/circle-flags" target="_blank">HatScripts/circle-flags</a>
-- Built with <a href="https://github.com/egoist/tsup" target="_blank">tsup</a>
+- Flag designs from [HatScripts/circle-flags](https://github.com/HatScripts/circle-flags)
+- Built with [tsup](https://github.com/egoist/tsup)
