@@ -47,6 +47,21 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: 'Related Links',
+          items: [
+            {
+              label: 'GitHub Repository',
+              link: 'https://github.com/SanKyu-Lab/react-circle-flags',
+              attrs: { target: '_blank', rel: 'noreferrer' },
+            },
+            {
+              label: 'NPM Package',
+              link: 'https://www.npmjs.com/package/@sankyu/react-circle-flags',
+              attrs: { target: '_blank', rel: 'noreferrer' },
+            },
+          ],
+        },
       ],
     }),
   ],
