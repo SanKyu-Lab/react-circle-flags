@@ -10,11 +10,7 @@
 
 [![TypeScript Supported](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![React Ready](https://img.shields.io/badge/React-%3E%3D16.0.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=opensourceinitiative)](./LICENSE)
 
----
-
-:star: **Star us on [GitHub](https://github.com/Sankyu-Lab/react-circle-flags)** | :bug: **Report Issues [here](https://github.com/Sankyu-Lab/react-circle-flags/issues)**
-
-:rocket: **Explore the [Demo Gallery](https://sankyu-lab.github.io/react-circle-flags/browse)** | :book: **Read the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/)**
+:star: **Star us on <a href="https://github.com/Sankyu-Lab/react-circle-flags" target="_blank">GitHub</a>** | :bug: **Report Issues <a href="https://github.com/Sankyu-Lab/react-circle-flags/issues" target="_blank">here</a>**
 
 </div>
 
@@ -28,7 +24,14 @@ This library provides **400+ circular SVG flag components** with **Full-TypeScri
 
 Perfect for applications that need fast, crisp country flags without external image requests.
 
+:rocket: **Explore the <a href="https://sankyu-lab.github.io/react-circle-flags/browse" target="_blank">Demo Gallery</a>** | :book: **Read the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/" target="_blank">Documentation</a>**
+
+---
+
 ## ✨ Key Features
+
+> [!TIP]
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/#-key-features" target="_blank">Documentation</a>.
 
 - 🎯 **Tree-shakable** - Only bundle the flags you use
 - 📦 **TypeScript** - Full type definitions included
@@ -39,6 +42,9 @@ Perfect for applications that need fast, crisp country flags without external im
 - 🪶 **Lightweight** - Each flag is ~1-3KB
 
 ## 📦 Installation
+
+> [!TIP]
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/installation/" target="_blank">Installation Guide</a>.
 
 ```bash
 npm install @sankyu/react-circle-flags
@@ -51,6 +57,9 @@ bun add @sankyu/react-circle-flags
 ```
 
 ## 🚀 Usage
+
+> [!TIP]
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/" target="_blank">Usage Guide</a>.
 
 ### Import individual flags (Recommended)
 
@@ -90,6 +99,9 @@ export default function StyledFlag() {
 > [!WARNING]
 > ⚠️ Using `DynamicFlag` or `import * as Flags` will pull all flag components into the bundle, which can reduce tree-shaking efficiency and increase bundle size.
 
+> [!TIP]
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/" target="_blank">Dynamic Flag Selection</a> section in the documentation.
+
 ```tsx
 import { DynamicFlag } from '@sankyu/react-circle-flags'
 
@@ -124,7 +136,7 @@ interface FlagProps extends SVGProps<SVGSVGElement> {
 
 ### Available Flags
 
-Over 428 country and territory flags are available. Each flag is exported with the pattern `Flag{PascalCase ISO_CODE}` (for example, `FlagUs`, `FlagCn`). Convenience aliases are provided for common two-letter codes: `FlagUs`, `FlagCn`, `FlagGb`, `FlagJp`.
+Each flag is exported with the pattern `Flag{PascalCase ISO_CODE}` (for example, `FlagUs`, `FlagCn`). Convenience aliases are provided for common two-letter codes: `FlagUs`, `FlagCn`, `FlagGb`, `FlagJp`.
 
 - `FlagUs` - United States
 - `FlagCn` - China
@@ -132,40 +144,18 @@ Over 428 country and territory flags are available. Each flag is exported with t
 - `FlagJp` - Japan
 - ... and many more
 
-See the [full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the circle-flags gallery.
+See the <a href="https://sankyu-lab.github.io/react-circle-flags/browse" target="_blank">Full list of flags</a> in the circle-flags gallery.
 
 ## 🎨 Styling
 
-Flags are just SVG components, so you can style them however you want:
-
-```tsx
-// With Tailwind CSS
-<FlagUs className="w-12 h-12 rounded-full shadow-lg" />
-
-// With inline styles
-<FlagUs style={{ width: 48, height: 48, borderRadius: '50%' }} />
-
-// With CSS modules
-<FlagUs className={styles.flag} />
-```
+> [!TIP]
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/styling/" target="_blank">Styling Guide</a>.
 
 ## 🔧 TypeScript
 
-Full TypeScript support is included out of the box:
+Full TypeScript support is included out of the box.
 
-```tsx
-import type { SVGProps } from 'react'
-import { FlagUs } from '@sankyu/react-circle-flags'
-
-interface Props {
-  countryCode: string
-  flagProps?: SVGProps<SVGSVGElement>
-}
-
-export const MyComponent = ({ flagProps }: Props) => {
-  return <FlagUs {...flagProps} />
-}
-```
+> For more information, you may refer to the <a href="https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/typescript/" target="_blank">TypeScript Guide</a>.
 
 ## 📖 Examples
 
@@ -214,11 +204,11 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## 📄 License
 
-`@sankyu/react-circle-flags` is licensed under the MIT License, © [Sankyu Lab](https://github.com/Sankyu-Lab)
+`@sankyu/react-circle-flags` is licensed under the MIT License, © <a href="https://github.com/Sankyu-Lab" target="_blank">Sankyu Lab</a>
 
-[website](./website/) is licensed under the GPL-3.0 License, © [Sankyu Lab](https://github.com/Sankyu-Lab)
+[website](./website/) is licensed under the GPL-3.0 License, © <a href="https://github.com/Sankyu-Lab" target="_blank">Sankyu Lab</a>
 
 ## 🙏 Credits
 
-- Flag designs from [HatScripts/circle-flags](https://github.com/HatScripts/circle-flags)
-- Built with [tsup](https://github.com/egoist/tsup)
+- Flag designs from <a href="https://github.com/HatScripts/circle-flags" target="_blank">HatScripts/circle-flags</a>
+- Built with <a href="https://github.com/egoist/tsup" target="_blank">tsup</a>
