@@ -5,8 +5,8 @@ import starlight from '@astrojs/starlight'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sankyu-lab.github.io',
-  base: '/',
+  site: 'https://sankyu-lab.github.io/react-circle-flags',
+  base: '/react-circle-flags',
   integrations: [
     react(),
     starlight({
@@ -15,7 +15,7 @@ export default defineConfig({
         src: './src/assets/favicon.svg',
         alt: 'React Circle Flags',
       },
-      favicon: '/favicon.svg',
+      favicon: '/react-circle-flags/favicon.svg',
       social: [
         {
           icon: 'github',

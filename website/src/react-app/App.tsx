@@ -3,6 +3,7 @@ import AppBackground from './components/layout/AppBackground'
 import NavigationBar from './components/layout/NavigationBar'
 import HomePage from './components/pages/HomePage'
 import { useSpaPathRouter } from './routing/useSpaPathRouter'
+import { toRouteHref, withBasePath } from './routing/paths'
 import { getFlagCount } from './utils/flagData'
 
 const BrowserPage = lazy(() => import('./components/pages/BrowserPage'))
@@ -13,11 +14,11 @@ export default function App() {
 
   const navItems = useMemo(
     () => [
-      { label: 'Home', href: '/', ariaLabel: 'Home page' },
-      { label: 'Browse', href: '/browse', ariaLabel: 'Browse flags' },
+      { label: 'Home', href: toRouteHref('home'), ariaLabel: 'Home page' },
+      { label: 'Browse', href: toRouteHref('browse'), ariaLabel: 'Browse flags' },
       {
         label: 'Docs',
-        href: '/docs/guides/getting-started/',
+        href: withBasePath('docs/guides/getting-started/'),
         ariaLabel: 'Documentation',
         target: '_blank',
         rel: 'noreferrer',
@@ -44,9 +45,12 @@ export default function App() {
         {route === 'home' && (
           <HomePage
             flagCount={flagCount}
-            onBrowseClick={() => window.open('/browse', '_blank')}
+            onBrowseClick={() => window.open(toRouteHref('browse'), '_blank')}
             onFilterNavigate={code =>
-              window.open(`/browse?filter=${encodeURIComponent(code)}`, '_blank')
+              window.open(
+                withBasePath(`browse?filter=${encodeURIComponent(code)}`),
+                '_blank'
+              )
             }
           />
         )}

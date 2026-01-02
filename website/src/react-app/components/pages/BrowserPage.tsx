@@ -1,4 +1,5 @@
 import FlagBrowser from '../flag-browser/FlagBrowser'
+import { withBasePath } from '../../routing/paths'
 
 interface BrowserPageProps {
   flagCount: number
@@ -13,7 +14,7 @@ export default function BrowserPage({ flagCount }: BrowserPageProps) {
           Search, filter, and explore {flagCount} circular flag icons.
         </p>
         <a
-          href="/docs/guides/getting-started/"
+          href={withBasePath('docs/guides/getting-started/')}
           className="mt-3 inline-block text-sm text-(--accent) hover:underline"
         >
           Read the docs

@@ -14,7 +14,7 @@
 
 :star: **Star us on [GitHub](https://github.com/Sankyu-Lab/react-circle-flags)** | :bug: **Report Issues [here](https://github.com/Sankyu-Lab/react-circle-flags/issues)**
 
-:rocket: **Explore the [Demo Gallery](https://sankyu-lab.github.io/browse)** | :book: **Read the [Documentation](https://sankyu-lab.github.io/docs/guides/getting-started/)**
+:rocket: **Explore the [Demo Gallery](https://sankyu-lab.github.io/react-circle-flags/browse)** | :book: **Read the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/)**
 
 </div>
 
@@ -132,7 +132,7 @@ Over 428 country and territory flags are available. Each flag is exported with t
 - `FlagJp` - Japan
 - ... and many more
 
-See the [full list of flags](https://sankyu-lab.github.io/browse) in the circle-flags gallery.
+See the [full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the circle-flags gallery.
 
 ## 🎨 Styling
 

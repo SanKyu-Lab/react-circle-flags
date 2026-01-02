@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
-export type Route = 'home' | 'browse'
-
-const ROUTE_PATHS: Record<Route, string> = {
-  home: '/',
-  browse: '/browse',
-}
+import { ROUTE_PATHS, stripBasePath, toRouteHref, type Route } from './paths'
 
 const parseRoute = (pathname: string): Route => {
-  if (pathname.startsWith(ROUTE_PATHS.browse)) return 'browse'
+  const normalizedPath = stripBasePath(pathname)
+  if (normalizedPath.startsWith(ROUTE_PATHS.browse)) return 'browse'
   return 'home'
 }
 
@@ -29,19 +24,14 @@ export function useSpaPathRouter() {
       setRoute(next)
       return
     }
-    const targetPath = `${ROUTE_PATHS[next]}${search}`
+    const targetPath = `${toRouteHref(next)}${search}`
     if (window.location.pathname + window.location.search !== targetPath) {
       window.history.pushState({ route: next }, '', targetPath)
     }
     setRoute(next)
   }, [])
 
-  const currentPath = useMemo(() => ROUTE_PATHS[route], [route])
+  const currentPath = useMemo(() => toRouteHref(route), [route])
 
   return { route, currentPath, navigate }
-}
-
-export function isInternalRoute(href: string | undefined): href is string {
-  if (!href) return false
-  return href === ROUTE_PATHS.home || href.startsWith(ROUTE_PATHS.browse)
 }

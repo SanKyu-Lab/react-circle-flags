@@ -1,4 +1,5 @@
 import { Github } from 'lucide-react'
+import { withBasePath } from '../../routing/paths'
 import { buildMeta } from '@sankyu/react-circle-flags'
 
 export default function AppFooter() {
@@ -15,7 +16,11 @@ export default function AppFooter() {
       <div className="relative mx-auto flex max-w-6xl flex-wrap items-start justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="flex h-11 w-11 items-center justify-center rounded-full border border-(--border-weak) bg-(--overlay-soft) shadow-inner shadow-(--accent)/20">
-            <img src="/favicon.svg" alt="React Circle Flags logo" className="h-6 w-6" />
+            <img
+              src={withBasePath('favicon.svg')}
+              alt="React Circle Flags logo"
+              className="h-6 w-6"
+            />
           </div>
           <div>
             <p className="text-sm font-semibold tracking-tight text-(--ink)">
@@ -29,9 +34,10 @@ export default function AppFooter() {
 
         <div className="flex flex-wrap items-center gap-3 text-sm font-medium">
           <a
-            href="/docs/guides/getting-started/"
+            href={withBasePath('docs/guides/getting-started/')}
             target="_blank"
             className="cursor-alias rounded-full border border-(--border-weak) bg-(--overlay-soft) px-4 py-1.5 text-(--ink) transition hover:border-(--accent) hover:text-(--accent)"
+            rel="noreferrer"
           >
             Documentation
           </a>

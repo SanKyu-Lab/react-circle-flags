@@ -1,8 +1,8 @@
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
 import PillNav, { type PillNavItem } from '../animated-ui/PillNav'
-import { type Route } from '../../routing/useSpaPathRouter'
-import { isInternalRoute } from '../../routing/useSpaPathRouter'
+import { hrefToRoute, isInternalRoute, withBasePath } from '../../routing/paths'
+import { type Route } from '../../routing/paths'
 
 interface NavigationBarProps {
   items: PillNavItem[]
@@ -10,8 +10,6 @@ interface NavigationBarProps {
   onRouteChange: (route: Route) => void
   onRouteChangeWithSearch?: (route: Route, search?: string) => void
 }
-
-const hrefToRoute = (href: string): Route => (href.startsWith('/browse') ? 'browse' : 'home')
 
 export default function NavigationBar({
   items,
@@ -45,7 +43,7 @@ export default function NavigationBar({
   return (
     <header className="relative max-w-6xl mx-auto px-6 pt-8 pb-4">
       <PillNav
-        logo="./favicon.svg"
+        logo={withBasePath('favicon.svg')}
         initialLoadAnimation={true}
         logoAlt="Circle Flags logo"
         items={items}

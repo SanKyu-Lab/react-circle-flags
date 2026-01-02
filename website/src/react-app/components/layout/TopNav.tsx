@@ -1,4 +1,5 @@
 import { Github, Globe2 } from 'lucide-react'
+import { withBasePath } from '../../routing/paths'
 import { type ReactNode } from 'react'
 
 interface TopNavProps {
@@ -42,7 +43,7 @@ export default function TopNav({ currentPage, onPageChange, children }: TopNavPr
 
           <div className="flex items-center gap-3">
             <a
-              href="/docs/guides/getting-started/"
+              href={withBasePath('docs/guides/getting-started/')}
               className="px-4 py-1.5 rounded-full text-sm font-medium text-(--muted) hover:text-(--ink) hover:bg-(--overlay-mid) transition-all"
             >
               Docs

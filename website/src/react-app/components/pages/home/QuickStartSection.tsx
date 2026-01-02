@@ -2,6 +2,7 @@ import CodeExample from '../../code-example/CodeExample'
 import SpotlightCard from '../../animated-ui/SpotlightCard'
 import LinkButton from '../../ui/LinkButton'
 import { Rocket } from 'lucide-react'
+import { withBasePath } from '../../../routing/paths'
 
 export default function QuickStartSection() {
   return (
@@ -25,7 +26,11 @@ export default function QuickStartSection() {
           </div>
           <CodeExample />
           <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-(--muted) pt-4">
-            <LinkButton href="/docs/guides/getting-started/" target="_blank" variant="solid">
+            <LinkButton
+              href={withBasePath('docs/guides/getting-started/')}
+              target="_blank"
+              variant="solid"
+            >
               Quickstart Guide
             </LinkButton>
           </div>
