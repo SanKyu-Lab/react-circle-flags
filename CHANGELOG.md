@@ -1,3 +1,5 @@
+## [1.1.1](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.1.0...v1.1.1) (2026-01-02)
+
 # [1.1.0](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.0.2...v1.1.0) (2026-01-02)
 
 
