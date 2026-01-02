@@ -1,0 +1,55 @@
+---
+title: Installation
+description: Add the package to your project.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import { Icon } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+
+## Install the package
+
+Choose your preferred package manager to install the library:
+
+<Tabs syncKey="pkg">
+  <TabItem label="npm" icon="seti:npm">
+
+    ```bash
+    npm install @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm" icon="pnpm">
+    
+    ```bash
+    pnpm add @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+  <TabItem label="yarn" icon="seti:yarn">
+    
+    ```bash
+    yarn add @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+  <TabItem label="bun" icon="bun">
+    
+    ```bash
+    bun add @sankyu/react-circle-flags
+    ```
+    
+  </TabItem>
+</Tabs>
+
+:::note[React Peer Dependency]
+The package expects **React** to already be installed in your project.
+:::
+
+## Next step
+
+<LinkCard
+  title="Basic Usage"
+  description="Learn how to import and render flag components in your application"
+  href="/docs/guides/getting-started/usage/"
+/>

@@ -1,0 +1,100 @@
+---
+title: Dynamic Flags
+description: Render flags from runtime ISO codes.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+
+When you need to render flags based on runtime data (user input, API responses, database values), use the `DynamicFlag` component.
+
+## Use DynamicFlag
+
+```tsx
+import { DynamicFlag } from '@sankyu/react-circle-flags'
+
+export function CountryFlag({ code }: { code: string }) {
+  return <DynamicFlag code={code} width={36} height={36} />
+}
+```
+
+## When to use it
+
+<CardGrid>
+  <Card title="User Input" icon="pencil">
+    Country selectors, forms, or settings where users choose their location.
+  </Card>
+  <Card title="API Responses" icon="external">
+    Data fetched from external APIs that include country codes.
+  </Card>
+  <Card title="Database Records" icon="seti:db">
+    User profiles or records stored with country information.
+  </Card>
+</CardGrid>
+
+## Real-world example
+
+```tsx
+import { DynamicFlag } from '@sankyu/react-circle-flags'
+
+interface User {
+  name: string
+  countryCode: string
+}
+
+export function UserProfile({ user }: { user: User }) {
+  return (
+    <div className="flex items-center gap-3">
+      <DynamicFlag code={user.countryCode.toLowerCase()} width={32} height={32} />
+      <span>{user.name}</span>
+    </div>
+  )
+}
+```
+
+:::tip[Code Normalization]
+`DynamicFlag` automatically converts country codes to lowercase, so both `"US"` and `"us"` will work correctly.
+:::
+
+## Trade-offs
+
+:::caution[Bundle Size Impact]
+`DynamicFlag` loads the **full flag registry** (~400+ flags) into your bundle. This is necessary to support runtime flag selection, but it increases bundle size.
+
+**Alternatives:**
+
+- If you only need a few specific flags, use direct imports: `import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'`
+- If you can determine flags at build time, prefer static imports for better tree-shaking
+  :::
+
+## Comparison
+
+<Card title="Named Imports" icon="approve-check">
+
+```tsx
+import { FlagUs } from '@sankyu/react-circle-flags'
+```
+
+- **Best for:** Static, known flags
+- **Bundle impact:** Minimal (only imported flags)
+- **Tree-shaking:** ✅ Excellent
+
+</Card>
+
+<Card title="DynamicFlag" icon="warning">
+  ```tsx
+  import { DynamicFlag } from '@sankyu/react-circle-flags'
+  ```
+  - **Best for:** Runtime country codes  
+  - **Bundle impact:** Full registry (~400+ flags)  
+  - **Tree-shaking:** ⚠️ Limited
+
+</Card>
+
+## Next step
+
+<LinkCard
+  title="TypeScript"
+  description="Learn about type safety and SVG prop types for flag components"
+  href="/docs/guides/getting-started/typescript/"
+/>

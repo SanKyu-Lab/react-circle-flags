@@ -1,0 +1,3 @@
+[submodule "circle-flags"]
+	path = circle-flags
+	url = https://github.com/HatScripts/circle-flags.git

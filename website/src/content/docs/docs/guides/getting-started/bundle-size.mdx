@@ -1,0 +1,160 @@
+---
+title: Bundle Size & Tree-shaking
+description: Keep bundles small by using named imports.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+
+Optimize your bundle size by following best practices for importing flag components.
+
+## Recommended import style
+
+Use **named imports** to ensure only the flags you need are included in your bundle:
+
+```tsx
+import { FlagUs, FlagCn, FlagGb } from '@sankyu/react-circle-flags'
+
+export function Header() {
+  return (
+    <div>
+      <FlagUs width={32} height={32} />
+      <FlagCn width={32} height={32} />
+      <FlagGb width={32} height={32} />
+    </div>
+  )
+}
+```
+
+:::tip[Tree-shaking Efficiency]
+Modern bundlers like **Webpack 5+**, **Vite**, and **Rollup** will automatically remove unused flag components when you use named imports. This keeps your bundle lean.
+:::
+
+## Bundle size comparison
+
+<Card title="Named Imports" icon="approve-check">
+
+```tsx
+import { FlagUs } from '@sankyu/react-circle-flags'
+```
+
+- **Best for:** Static, known flags
+- **Bundle impact:** Minimal (only imported flags)
+- **Tree-shaking:** ✅ Excellent
+
+</Card>
+
+<Card title="DynamicFlag" icon="warning">
+  ```tsx
+  import { DynamicFlag } from '@sankyu/react-circle-flags'
+  ```
+  - **Best for:** Runtime country codes  
+  - **Bundle impact:** Full registry (~400+ flags)  
+  - **Tree-shaking:** ⚠️ Limited
+
+</Card>
+<Card title="Namespace Import" icon="error">
+  ```tsx
+  import * as Flags from '@sankyu/react-circle-flags'
+  ```
+  - **Best for:** Avoid this pattern  
+  - **Bundle impact:** Full registry (~400+ flags)  
+  - **Tree-shaking:** ❌ None
+</Card>
+
+## Import patterns
+
+### ✅ Good: Named imports
+
+```tsx
+import { FlagUs, FlagCn, FlagJp } from '@sankyu/react-circle-flags'
+```
+
+**Result:** Only 3 flag components are bundled (~4-6 KB)
+
+### ❌ Bad: Namespace import
+
+```tsx
+import * as Flags from '@sankyu/react-circle-flags'
+
+// Even if you only use 3 flags, all 400+ will be bundled
+const flag = <Flags.FlagUs />
+```
+
+**Result:** All 400+ flags bundled (~200+ KB) ⚠️
+
+### ⚠️ Use sparingly: DynamicFlag
+
+```tsx
+import { DynamicFlag } from '@sankyu/react-circle-flags'
+
+// Only use when country code is truly dynamic (from API, user input, etc.)
+const flag = <DynamicFlag code={userCountry} />
+```
+
+**Result:** Full registry bundled (~200+ KB)
+
+**When to use:** Only when you genuinely need runtime flag selection
+
+## Analyzing your bundle
+
+Use these tools to verify your bundle size:
+
+```bash
+# Webpack Bundle Analyzer
+npm install --save-dev webpack-bundle-analyzer
+
+# Vite Bundle Analyzer
+npm install --save-dev rollup-plugin-visualizer
+
+# Next.js Bundle Analyzer
+npm install --save-dev @next/bundle-analyzer
+```
+
+:::note[Expected Sizes]
+
+- **Each flag component:** ~1-2 KB (minified + gzipped)
+- **Full registry (400+ flags):** ~200+ KB (minified + gzipped)
+- **Named imports (10 flags):** ~10-20 KB (minified + gzipped)
+  :::
+
+## Performance tips
+
+<CardGrid>
+  <Card title="Code Splitting" icon="rocket">
+    Split flag components across routes to load only what's needed per page.
+  </Card>
+  <Card title="Lazy Loading" icon="moon">
+    Use React's `lazy()` to defer loading flags until they're actually rendered.
+  </Card>
+  <Card title="Static Analysis" icon="magnifier">
+    Run bundle analysis regularly to catch unexpected size increases.
+  </Card>
+</CardGrid>
+
+## Example: Code splitting
+
+```tsx
+import { lazy, Suspense } from 'react'
+
+// Lazy load the flag component
+const FlagUs = lazy(() =>
+  import('@sankyu/react-circle-flags').then(mod => ({ default: mod.FlagUs }))
+)
+
+export function CountryFlag() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FlagUs width={48} height={48} />
+    </Suspense>
+  )
+}
+```
+
+## Related
+
+<LinkCard
+  title="Dynamic Flags"
+  description="Learn when and how to use DynamicFlag for runtime country codes"
+  href="/docs/guides/getting-started/dynamic-flags/"
+/>

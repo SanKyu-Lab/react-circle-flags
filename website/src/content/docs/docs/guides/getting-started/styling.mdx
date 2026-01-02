@@ -1,0 +1,142 @@
+---
+title: Styling
+description: Apply className, style, and layout styles to flags.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Flag components accept all standard SVG props, making them easy to style with any CSS approach.
+
+## Styling methods
+
+<CardGrid stagger>
+  <Card title="Tailwind CSS" icon="seti:sass">
+    Use utility classes for rapid styling with design consistency.
+  </Card>
+  <Card title="Inline Styles" icon="seti:javascript">
+    Perfect for dynamic styles or one-off customizations.
+  </Card>
+  <Card title="CSS Modules" icon="seti:css">
+    Scoped styles with traditional CSS syntax and no naming conflicts.
+  </Card>
+  <Card title="Styled Components" icon="seti:react">
+    CSS-in-JS solution with full theme integration.
+  </Card>
+</CardGrid>
+
+## Examples
+
+<Tabs syncKey="styling">
+  <TabItem label="Tailwind CSS" icon="seti:sass">
+    ```tsx
+    import { FlagUs } from '@sankyu/react-circle-flags'
+
+    export default function TailwindFlag() {
+      return (
+        <FlagUs
+          className="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform"
+        />
+      )
+    }
+    ```
+  </TabItem>
+  <TabItem label="Inline Styles" icon="seti:javascript">
+    ```tsx
+    import { FlagUs } from '@sankyu/react-circle-flags'
+
+    export default function InlineFlag() {
+      return (
+        <FlagUs
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: '50%',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+          }}
+        />
+      )
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Modules" icon="seti:css">
+    ```tsx
+    import { FlagUs } from '@sankyu/react-circle-flags'
+    import styles from './flags.module.css'
+
+    export default function CssModuleFlag() {
+      return <FlagUs className={styles.flag} />
+    }
+    ```
+
+    ```css title="flags.module.css"
+    .flag {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .flag:hover {
+      transform: scale(1.1);
+    }
+    ```
+  </TabItem>
+  <TabItem label="Styled Components" icon="seti:react">
+    ```tsx
+    import styled from 'styled-components'
+    import { FlagUs } from '@sankyu/react-circle-flags'
+
+    const StyledFlag = styled(FlagUs)`
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    `
+
+    export default function StyledFlag() {
+      return <StyledFlag />
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Common customizations
+
+All flags support standard SVG properties:
+
+```tsx
+import { FlagJp } from '@sankyu/react-circle-flags'
+
+export default function CustomFlag() {
+  return (
+    <FlagJp
+      width={64}
+      height={64}
+      className="my-flag"
+      style={{ opacity: 0.8 }}
+      onClick={() => console.log('Flag clicked!')}
+      aria-label="Japan flag"
+    />
+  )
+}
+```
+
+:::tip[Responsive Sizing]
+Use CSS units like `rem` or `em` for responsive flag sizes, or rely on Tailwind's responsive utilities like `w-12 md:w-16 lg:w-20`.
+:::
+
+## Next step
+
+<LinkCard
+  title="Dynamic Flags"
+  description="Learn how to render flags based on runtime country codes"
+  href="/docs/guides/getting-started/dynamic-flags/"
+/>

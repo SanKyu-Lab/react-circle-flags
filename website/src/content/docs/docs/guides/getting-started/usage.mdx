@@ -1,0 +1,114 @@
+---
+title: Basic Usage
+description: Import and render flag components.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Import individual flags
+
+Import only the flags you need for optimal **tree-shaking** and minimal bundle size.
+
+```tsx
+import { FlagUs, FlagCn, FlagGb } from '@sankyu/react-circle-flags'
+
+export default function Header() {
+  return (
+    <div className="flex items-center gap-3">
+      <FlagUs width={40} height={40} />
+      <FlagCn width={40} height={40} />
+      <FlagGb width={40} height={40} />
+    </div>
+  )
+}
+```
+
+:::tip[Best Practice]
+Always use **named imports** instead of namespace imports (`import * as Flags`) to ensure unused flags are excluded from your bundle.
+:::
+
+## Naming convention
+
+All flag components follow a consistent naming pattern:
+
+<CardGrid>
+  <Card title="Pattern" icon="star">
+    Components use the format **`Flag{ISO}`** where ISO is the uppercase country code.
+  </Card>
+  <Card title="Examples" icon="list-format">
+    - `FlagUs` → United States
+    - `FlagCn` → China
+    - `FlagGb` → Great Britain
+    - `FlagJp` → Japan
+  </Card>
+</CardGrid>
+
+## Framework examples
+
+The library works seamlessly with all modern React frameworks:
+
+<Tabs syncKey="framework">
+  <TabItem label="Next.js" icon="vercel">
+    ```tsx
+    import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+
+    export default function Page() {
+      return (
+        <main>
+          <h1>Country Flags</h1>
+          <div className="flex gap-4">
+            <FlagUs width={64} height={64} />
+            <FlagCn width={64} height={64} />
+          </div>
+        </main>
+      )
+    }
+    ```
+  </TabItem>
+  <TabItem label="Remix" icon="seti:yml">
+    ```tsx
+    import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+
+    export default function Index() {
+      return (
+        <div>
+          <h1>Welcome</h1>
+          <div className="flag-container">
+            <FlagUs width={48} height={48} />
+            <FlagCn width={48} height={48} />
+          </div>
+        </div>
+      )
+    }
+    ```
+  </TabItem>
+  <TabItem label="Vite" icon="seti:javascript">
+    ```tsx
+    import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+
+    function App() {
+      return (
+        <>
+          <h1>My App</h1>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <FlagUs width={56} height={56} />
+            <FlagCn width={56} height={56} />
+          </div>
+        </>
+      )
+    }
+
+    export default App
+    ```
+  </TabItem>
+</Tabs>
+
+## Next step
+
+<LinkCard
+  title="Styling"
+  description="Learn how to customize flag appearance with CSS classes and inline styles"
+  href="/docs/guides/getting-started/styling/"
+/>

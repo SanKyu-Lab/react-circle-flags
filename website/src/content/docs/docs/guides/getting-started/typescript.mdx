@@ -1,0 +1,147 @@
+---
+title: TypeScript
+description: Use the SVG prop types in your components.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+All flag components are fully typed with TypeScript, providing autocomplete and type safety out of the box.
+
+## SVG prop typing
+
+All flag components accept standard React SVG props:
+
+```tsx
+import type { SVGProps } from 'react'
+import { FlagUs } from '@sankyu/react-circle-flags'
+
+interface Props {
+  flagProps?: SVGProps<SVGSVGElement>
+}
+
+export function FlagItem({ flagProps }: Props) {
+  return <FlagUs {...flagProps} />
+}
+```
+
+:::note[Type Inference]
+TypeScript will automatically infer all available props when you use flag components. No additional type imports are required for basic usage.
+:::
+
+## Advanced typing examples
+
+<Tabs syncKey="ts-examples">
+  <TabItem label="Component Props" icon="seti:typescript">
+    ```tsx
+    import type { SVGProps, ComponentProps } from 'react'
+    import { FlagCn } from '@sankyu/react-circle-flags'
+
+    // Method 1: Using SVGProps
+    type FlagProps1 = SVGProps<SVGSVGElement>
+
+    // Method 2: Using ComponentProps (recommended)
+    type FlagProps2 = ComponentProps<typeof FlagCn>
+
+    export function Flag(props: FlagProps2) {
+      return <FlagCn {...props} />
+    }
+    ```
+  </TabItem>
+  <TabItem label="Reusable Wrapper" icon="seti:react">
+    ```tsx
+    import type { ComponentProps } from 'react'
+    import { FlagUs, FlagCn, FlagGb } from '@sankyu/react-circle-flags'
+
+    type FlagComponent = typeof FlagUs | typeof FlagCn | typeof FlagGb
+    type FlagWrapperProps = ComponentProps<FlagComponent> & {
+      label?: string
+    }
+
+    export function FlagWithLabel({ label, ...flagProps }: FlagWrapperProps) {
+      const FlagComp = flagProps.as || FlagUs
+      return (
+        <div>
+          <FlagComp {...flagProps} />
+          {label && <span>{label}</span>}
+        </div>
+      )
+    }
+    ```
+  </TabItem>
+  <TabItem label="Event Handlers" icon="seti:javascript">
+    ```tsx
+    import type { MouseEvent } from 'react'
+    import { FlagJp } from '@sankyu/react-circle-flags'
+
+    export function InteractiveFlag() {
+      const handleClick = (e: MouseEvent<SVGSVGElement>) => {
+        console.log('Flag clicked at', e.clientX, e.clientY)
+      }
+
+      return (
+        <FlagJp
+          width={48}
+          height={48}
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        />
+      )
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Type exports
+
+The library exports helpful types for advanced use cases:
+
+```tsx
+import type { FlagCode, FlagComponentProps } from '@sankyu/react-circle-flags'
+
+// FlagCode: Union type of all available flag codes
+const validCode: FlagCode = 'us' // ✓ Valid
+const invalidCode: FlagCode = 'invalid' // ✗ Type error
+
+// FlagComponentProps: Standard props for flag components
+const props: FlagComponentProps = {
+  width: 64,
+  height: 64,
+  className: 'my-flag'
+}
+```
+
+## Type safety with DynamicFlag
+
+```tsx
+import { DynamicFlag } from '@sankyu/react-circle-flags'
+import type { FlagCode } from '@sankyu/react-circle-flags'
+
+interface CountrySelectProps {
+  selectedCountry: FlagCode
+  onSelect: (code: FlagCode) => void
+}
+
+export function CountrySelect({ selectedCountry, onSelect }: CountrySelectProps) {
+  return (
+    <div>
+      <DynamicFlag code={selectedCountry} width={32} height={32} />
+      <button onClick={() => onSelect('us')}>USA</button>
+      <button onClick={() => onSelect('cn')}>China</button>
+    </div>
+  )
+}
+```
+
+:::tip[Strict Type Checking]
+Enable `strict: true` in your `tsconfig.json` to catch type errors early and get the best TypeScript experience.
+:::
+
+## Next step
+
+<LinkCard
+  title="Bundle Size & Tree-shaking"
+  description="Learn how to optimize your bundle size with proper import strategies"
+  href="/docs/guides/getting-started/bundle-size/"
+/>

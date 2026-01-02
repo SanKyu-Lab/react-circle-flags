@@ -1,0 +1,148 @@
+import { useMemo, useState } from 'react'
+import { Check, Copy } from 'lucide-react'
+import Tabs from '../animated-ui/Tabs'
+import { useShikiHtml } from '../../utils/useShikiHtml'
+
+interface CodeToken {
+  type?: 'keyword' | 'string' | 'comment'
+  value: string
+}
+
+const usageLines: CodeToken[][] = [
+  [
+    { type: 'keyword', value: 'import' },
+    { value: ' { FlagUs, FlagCn } ' },
+    { type: 'keyword', value: 'from' },
+    { value: ' ' },
+    { type: 'string', value: "'@sankyu/react-circle-flags'" },
+  ],
+  [],
+  [{ type: 'keyword', value: 'function' }, { value: ' Header() {' }],
+  [{ value: '  return (' }],
+  [{ value: '    <div className="flex items-center gap-3">' }],
+  [{ value: '      <FlagUs width={40} height={40} />' }],
+  [{ value: '      <FlagCn width={40} height={40} />' }],
+  [{ value: '    </div>' }],
+  [{ value: '  )' }],
+  [{ value: '}' }],
+]
+
+const renderLine = (line: CodeToken[], index: number) => (
+  <div key={index} className="whitespace-pre leading-6">
+    {line.length === 0 ? <>&nbsp;</> : null}
+    {line.map((token, tokenIndex) => (
+      <span
+        key={tokenIndex}
+        className={
+          token.type === 'keyword'
+            ? 'token keyword'
+            : token.type === 'string'
+              ? 'token string'
+              : token.type === 'comment'
+                ? 'token comment'
+                : undefined
+        }
+      >
+        {token.value}
+      </span>
+    ))}
+  </div>
+)
+
+const installCommands = [
+  {
+    id: 'pnpm',
+    label: 'pnpm',
+    command: 'pnpm add @sankyu/react-circle-flags',
+  },
+  {
+    id: 'npm',
+    label: 'npm',
+    command: 'npm install @sankyu/react-circle-flags',
+  },
+  {
+    id: 'yarn',
+    label: 'yarn',
+    command: 'yarn add @sankyu/react-circle-flags',
+  },
+  {
+    id: 'bun',
+    label: 'bun',
+    command: 'bun add @sankyu/react-circle-flags',
+  },
+]
+
+export default function CodeExample() {
+  const [activeManager, setActiveManager] = useState(installCommands[0]?.id ?? 'pnpm')
+  const [copied, setCopied] = useState(false)
+  const usageCode = useMemo(
+    () =>
+      `import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+
+function Header() {
+  return (
+    <div className="flex items-center gap-3">
+      <FlagUs width={40} height={40} />
+      <FlagCn width={40} height={40} />
+    </div>
+  )
+}`,
+    []
+  )
+  const usageHtml = useShikiHtml(usageCode, 'tsx')
+  const activeCommand =
+    installCommands.find(entry => entry.id === activeManager) ?? installCommands[0]
+  const commandText = activeCommand?.command ?? ''
+
+  const handleCopy = async () => {
+    if (!commandText) return
+    try {
+      await navigator.clipboard.writeText(commandText)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="code-block p-4 space-y-3 rounded-2xl border border-(--border-strong) bg-(--surface)">
+        <Tabs
+          items={installCommands.map(entry => ({
+            id: entry.id,
+            label: entry.label,
+          }))}
+          activeId={activeManager}
+          onChange={setActiveManager}
+        />
+        {commandText ? (
+          <div className="relative rounded-xl border border-(--border-weak) bg-(--overlay-soft) px-4 py-3">
+            <pre className="overflow-x-auto text-sm text-(--ink)/90">
+              <code className="whitespace-pre text-left">$ {commandText}</code>
+            </pre>
+            <button
+              type="button"
+              aria-label="Copy install command"
+              onClick={handleCopy}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-(--border) bg-(--overlay-soft) p-2 text-(--ink) shadow-(--shadow-sm) hover:bg-(--overlay-mid) transition-all"
+            >
+              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              <span className="sr-only">{copied ? 'Copied' : 'Copy'}</span>
+            </button>
+          </div>
+        ) : null}
+      </div>
+      <div className="code-block p-4">
+        <p className="text-xs uppercase tracking-[0.2em] text-(--muted)">Usage</p>
+        {usageHtml ? (
+          <div className="mt-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: usageHtml }} />
+        ) : (
+          <pre className="mt-3 overflow-x-auto text-sm text-(--ink)/90">
+            <code>{usageLines.map(renderLine)}</code>
+          </pre>
+        )}
+      </div>
+    </div>
+  )
+}
