@@ -3,9 +3,9 @@ title: TypeScript
 description: Use the SVG prop types in your components.
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+import { Tabs, TabItem } from '@astrojs/starlight/components'
 
 All flag components are fully typed with TypeScript, providing autocomplete and type safety out of the box.
 
@@ -48,6 +48,7 @@ TypeScript will automatically infer all available props when you use flag compon
       return <FlagCn {...props} />
     }
     ```
+
   </TabItem>
   <TabItem label="Reusable Wrapper" icon="seti:react">
     ```tsx
@@ -69,6 +70,7 @@ TypeScript will automatically infer all available props when you use flag compon
       )
     }
     ```
+
   </TabItem>
   <TabItem label="Event Handlers" icon="seti:javascript">
     ```tsx
@@ -90,6 +92,7 @@ TypeScript will automatically infer all available props when you use flag compon
       )
     }
     ```
+
   </TabItem>
 </Tabs>
 
@@ -108,7 +111,7 @@ const invalidCode: FlagCode = 'invalid' // ✗ Type error
 const props: FlagComponentProps = {
   width: 64,
   height: 64,
-  className: 'my-flag'
+  className: 'my-flag',
 }
 ```
 
@@ -143,5 +146,5 @@ Enable `strict: true` in your `tsconfig.json` to catch type errors early and get
 <LinkCard
   title="Bundle Size & Tree-shaking"
   description="Learn how to optimize your bundle size with proper import strategies"
-  href="./bundle-size/"
+  href="../bundle-size/"
 />

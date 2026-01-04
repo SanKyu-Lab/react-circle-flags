@@ -54,10 +54,9 @@ export function svgToReactComponent(
 import type { FlagComponentProps } from '../../src/index'
 
 /**
- * ${emoji} ${countryName} flag component
+ * ${emoji} *${countryName}* flag component
  *
  * @example
- * import { ${componentName} } from '@sankyu/react-circle-flags'
  * <${componentName} width={64} height={64} className="flag-icon" />
  *
  * @param props - Standard SVG props (extends FlagComponentProps)
@@ -67,12 +66,10 @@ export const ${componentName} = ({
   width = 48,
   height = 48,
   className,
-  title = ${existingTitle ? `'${existingTitle}'` : `'${emoji} ${upperCode}'`},
-  alt = '${emoji}',
+  title = ${existingTitle ? `'${existingTitle}'` : `'${upperCode}'`},
   ...props
 }: FlagComponentProps): ReactElement => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
     viewBox="${viewBox}"
     width={width}
     height={height}
@@ -80,7 +77,6 @@ export const ${componentName} = ({
     role="img"
     aria-label={title}
     {...props}
-    {...({ alt } as any)}
   >
     <title>{title}</title>
 ${innerContent

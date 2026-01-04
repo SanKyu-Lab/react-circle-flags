@@ -1,24 +1,25 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import {
   CircleFlag,
   DynamicFlag,
-  FlagUs,
-  FlagCn,
-  FlagUS,
-  FlagCN,
-  FlagGB,
-  FlagJP,
   FlagUtils,
   FlagSizes,
   getSizeName,
   buildMeta,
   FLAG_REGISTRY,
 } from './index'
+import { FlagUs } from '../generated/flags/us'
+import { FlagCn } from '../generated/flags/cn'
 
 describe('Main exports', () => {
   test('should export CircleFlag component', () => {
     expect(CircleFlag).toBeDefined()
     expect(typeof CircleFlag).toBe('function')
+  })
+
+  test('should export DynamicFlag component', () => {
+    expect(DynamicFlag).toBeDefined()
+    expect(typeof DynamicFlag).toBe('function')
   })
 
   test('should export individual flag components', () => {
@@ -31,63 +32,54 @@ describe('Main exports', () => {
 
 describe('CircleFlag component', () => {
   test('should render with default props', () => {
+    render(<CircleFlag countryCode="us" />)
+    const flag = screen.getByRole('img')
+    expect(flag).toBeInTheDocument()
+    expect(flag).toHaveAttribute('viewBox')
+  })
+
+  test('should support backward compatible "code" prop', () => {
     render(<CircleFlag code="us" />)
     const flag = screen.getByRole('img')
     expect(flag).toBeInTheDocument()
     expect(flag).toHaveAttribute('viewBox')
   })
 
+  test('should prioritize countryCode over code', () => {
+    render(<CircleFlag countryCode="cn" code="us" data-testid="flag" />)
+    const flag = screen.getByTestId('flag')
+    expect(flag).toBeInTheDocument()
+  })
+
   test('should render with custom props', () => {
-    render(<CircleFlag code="cn" width={48} height={48} className="test-flag" />)
+    render(<CircleFlag countryCode="cn" width={48} height={48} className="test-flag" />)
     const flag = screen.getByRole('img')
     expect(flag).toBeInTheDocument()
     expect(flag).toHaveClass('test-flag')
   })
 
   test('should render different country codes', () => {
-    const { rerender } = render(<CircleFlag code="us" />)
+    const { rerender } = render(<CircleFlag countryCode="us" />)
     expect(screen.getByRole('img')).toBeInTheDocument()
 
-    rerender(<CircleFlag code="cn" />)
+    rerender(<CircleFlag countryCode="cn" />)
     expect(screen.getByRole('img')).toBeInTheDocument()
 
-    rerender(<CircleFlag code="jp" />)
+    rerender(<CircleFlag countryCode="jp" />)
     expect(screen.getByRole('img')).toBeInTheDocument()
   })
 
   test('should handle uppercase country codes', () => {
-    render(<CircleFlag code="US" />)
+    render(<CircleFlag countryCode="US" />)
     const flag = screen.getByRole('img')
     expect(flag).toBeInTheDocument()
   })
 
   test('should pass through SVG props', () => {
     const style = { border: '1px solid red' }
-    render(<CircleFlag code="us" style={style} data-testid="flag" />)
+    render(<CircleFlag countryCode="us" style={style} data-testid="flag" />)
     const flag = screen.getByTestId('flag')
     expect(flag).toBeInTheDocument()
-  })
-})
-
-describe('DynamicFlag component', () => {
-  test('should render the real flag component when available', () => {
-    const { container } = render(
-      <DynamicFlag code="us" title="Custom Flag Title" data-testid="dynamic-flag" />
-    )
-    const flag = screen.getByRole('img', { name: 'Custom Flag Title' })
-    expect(flag).toBeInTheDocument()
-    expect(container.querySelector('text')).toBeNull()
-  })
-
-  test('should fall back when the flag component is missing', () => {
-    const { container } = render(
-      <DynamicFlag code="invalid" title="Fallback Title" data-testid="fallback-flag" />
-    )
-    const flag = screen.getByRole('img', { name: 'Fallback Title' })
-    expect(flag).toBeInTheDocument()
-    const fallbackText = container.querySelector('text')
-    expect(fallbackText).toBeInTheDocument()
-    expect(fallbackText?.textContent).toBe('INVALID')
   })
 })
 
@@ -142,39 +134,100 @@ describe('Individual flag components', () => {
     expect(flag).toBeInTheDocument()
     expect(flag).toHaveClass('custom-class')
   })
-
-  test('alias exports should render correctly', () => {
-    render(
-      <>
-        <FlagUS data-testid="us-flag-alias" />
-        <FlagCN data-testid="cn-flag-alias" />
-        <FlagGB data-testid="gb-flag-alias" />
-        <FlagJP data-testid="jp-flag-alias" />
-      </>
-    )
-
-    expect(screen.getByTestId('us-flag-alias')).toBeInTheDocument()
-    expect(screen.getByTestId('cn-flag-alias')).toBeInTheDocument()
-    expect(screen.getByTestId('gb-flag-alias')).toBeInTheDocument()
-    expect(screen.getByTestId('jp-flag-alias')).toBeInTheDocument()
-  })
 })
 
-describe('DynamicFlag accessibility', () => {
-  test('should derive default title with emoji when title is missing', () => {
-    render(<DynamicFlag code="us" />)
-    expect(screen.getByRole('img', { name: '🇺🇸 US' })).toBeInTheDocument()
+describe('CircleFlag CDN loading', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn()
   })
 
-  test('should handle single-letter code with fallback emoji', () => {
-    render(<DynamicFlag code="x" />)
-    expect(screen.getByRole('img', { name: '🏳️ X' })).toBeInTheDocument()
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
+  test('should show loading state initially', () => {
+    ;(global.fetch as jest.Mock).mockImplementation(
+      () => new Promise(() => {}) // Never resolves
+    )
+
+    render(<CircleFlag countryCode="us" data-testid="flag" />)
+    const flag = screen.getByTestId('flag')
+    expect(flag).toBeInTheDocument()
+  })
+
+  test('should show error fallback on fetch failure', async () => {
+    ;(global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'))
+
+    render(<CircleFlag countryCode="us" data-testid="flag" />)
+
+    await waitFor(() => {
+      const text = screen.getByText('US')
+      expect(text).toBeInTheDocument()
+    })
+  })
+
+  test('should use custom CDN URL when provided', async () => {
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      text: async () => '<svg></svg>',
+    })
+
+    render(
+      <CircleFlag countryCode="io" cdnUrl="https://hatscripts.github.io/circle-flags/flags/" />
+    )
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://hatscripts.github.io/circle-flags/flags/io.svg'
+      )
+    })
   })
 })
 
 describe('getSizeName helper', () => {
   test('should return null when size not found', () => {
     expect(getSizeName(1)).toBeNull()
+  })
+})
+
+describe('DynamicFlag component', () => {
+  test('should render with default props', () => {
+    render(<DynamicFlag code="us" />)
+    const flag = screen.getByRole('img')
+    expect(flag).toBeInTheDocument()
+    expect(flag).toHaveAttribute('viewBox')
+  })
+
+  test('should render with custom props', () => {
+    render(<DynamicFlag code="cn" width={64} height={64} className="test-flag" />)
+    const flag = screen.getByRole('img')
+    expect(flag).toBeInTheDocument()
+    expect(flag).toHaveClass('test-flag')
+  })
+
+  test('should render different country codes', () => {
+    const { rerender } = render(<DynamicFlag code="us" />)
+    expect(screen.getByRole('img')).toBeInTheDocument()
+
+    rerender(<DynamicFlag code="cn" />)
+    expect(screen.getByRole('img')).toBeInTheDocument()
+
+    rerender(<DynamicFlag code="jp" />)
+    expect(screen.getByRole('img')).toBeInTheDocument()
+  })
+
+  test('should handle uppercase country codes', () => {
+    render(<DynamicFlag code="US" />)
+    const flag = screen.getByRole('img')
+    expect(flag).toBeInTheDocument()
+  })
+
+  test('should handle invalid country codes', () => {
+    render(<DynamicFlag code="invalid" data-testid="invalid-flag" />)
+    const flag = screen.getByTestId('invalid-flag')
+    expect(flag).toBeInTheDocument()
+    // Should show fallback with country code text
+    expect(flag.textContent).toContain('INVALID')
   })
 })
 

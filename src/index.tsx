@@ -1,7 +1,8 @@
-import { useId } from 'react'
-import type { ComponentType, ReactElement, SVGProps } from 'react'
+import { useId, useState, useEffect } from 'react'
+import type { ReactElement, SVGProps } from 'react'
 
-import * as FlagComponents from '../generated/flags'
+import * as AllFlags from '../generated/flags'
+import { FLAG_REGISTRY } from '../generated/flags'
 import type { FlagCode } from '../generated/flags'
 
 /**
@@ -36,19 +37,23 @@ export interface FlagComponentProps extends SVGProps<SVGSVGElement> {
   className?: string
   /** Accessible title for screen readers */
   title?: string
-  /** Alt text fallback (emoji) */
-  alt?: string
 }
 
-export interface DynamicFlagProps extends Omit<FlagComponentProps, 'title'> {
+export interface CircleFlagProps extends Omit<FlagComponentProps, 'title'> {
   /** ISO country code (e.g., 'us', 'cn', 'gb') */
-  code: string
+  countryCode?: string
+  /** @deprecated Use 'countryCode' instead - kept for backward compatibility */
+  code?: string
+  /** Custom CDN URL for loading SVG flags */
+  cdnUrl?: string
   /** Custom title for accessibility */
   title?: string
 }
 
-// Backward-compatible prop alias for the CircleFlag component
-export type FlagProps = DynamicFlagProps
+/**
+ * Default CDN endpoint for loading flag SVGs
+ */
+const DEFAULT_CDN_ENDPOINT = 'https://hatscripts.github.io/circle-flags/flags/'
 
 // Add sizes separately to avoid circular reference
 export const FlagSizes = {
@@ -72,21 +77,6 @@ export function getSizeName(pixels: number): FlagSizeName | null {
   return match ? match[0] : null
 }
 
-type FlagComponentMap = Record<string, ComponentType<FlagComponentProps>>
-
-const flagComponentMap = FlagComponents as unknown as FlagComponentMap
-const flagRegistry = FlagComponents.FLAG_REGISTRY
-
-const getFlagComponent = (code: string): ComponentType<FlagComponentProps> | undefined => {
-  const registryKey = code.toLowerCase()
-  if (!Object.prototype.hasOwnProperty.call(flagRegistry, registryKey)) {
-    return undefined
-  }
-
-  const componentName = flagRegistry[registryKey as FlagCode]
-  return flagComponentMap[componentName]
-}
-
 /**
  * Utility functions for working with flags
  */
@@ -101,7 +91,7 @@ export const FlagUtils: {
    * Check if a country code is valid
    */
   isValidCountryCode: (code: string): boolean => {
-    return Object.prototype.hasOwnProperty.call(flagRegistry, code.toLowerCase())
+    return Object.prototype.hasOwnProperty.call(FLAG_REGISTRY, code.toLowerCase())
   },
 
   /**
@@ -136,49 +126,189 @@ export { buildMeta } from './meta'
 export type { BuildMeta } from './meta'
 
 /**
- * Dynamic flag component that renders existing flags by country code
+ * Flag component compatible with react-circle-flags API
+ * Loads SVG from CDN for minimal bundle size
  *
  * @example
- * import { DynamicFlag } from '@sankyu/react-circle-flags'
- * <DynamicFlag code="us" />
- * <DynamicFlag code="gb" width={64} height={64} className="flag-icon" />
+ * import { CircleFlag } from '@sankyu/react-circle-flags'
+ * <CircleFlag countryCode="us" height="35" />
+ * <CircleFlag code="us" height="35" /> // backward compatible
+ * <CircleFlag countryCode="io" height="35" cdnUrl="https://hatscripts.github.io/circle-flags/flags/" />
  */
-export const DynamicFlag = ({ code, title, ...props }: DynamicFlagProps): ReactElement => {
-  const upperCode = code.toUpperCase()
-  const emoji = codeToEmoji(code)
-  const defaultTitle = `${emoji} ${upperCode}`
-  const resolvedTitle = title ?? defaultTitle
+export const CircleFlag = ({
+  countryCode,
+  code,
+  cdnUrl = DEFAULT_CDN_ENDPOINT,
+  width = 48,
+  height = 48,
+  title,
+  className,
+  ...props
+}: CircleFlagProps): ReactElement => {
+  // Backward compatibility: 'code' is an alias for 'countryCode'
+  const finalCountryCode = countryCode ?? code ?? ''
+  const [svgContent, setSvgContent] = useState<string | null>(null)
+  const [error, setError] = useState<boolean>(false)
   const titleId = useId()
 
-  const FlagComponent = getFlagComponent(code)
+  const normalizedCode = finalCountryCode.toLowerCase()
+  const upperCode = finalCountryCode.toUpperCase()
+  const emoji = codeToEmoji(finalCountryCode)
+  const defaultTitle = title ?? `${emoji} ${upperCode}`
 
-  if (FlagComponent) {
-    return <FlagComponent title={resolvedTitle} {...props} />
+  useEffect(() => {
+    if (!finalCountryCode) {
+      setError(true)
+      return
+    }
+
+    const fetchSvg = async () => {
+      try {
+        const url = `${cdnUrl.replace(/\/$/, '')}/${normalizedCode}.svg`
+        const response = await fetch(url)
+
+        if (!response.ok) {
+          throw new Error(`Failed to load flag: ${response.statusText}`)
+        }
+
+        const svg = await response.text()
+        setSvgContent(svg)
+        setError(false)
+      } catch (err) {
+        console.warn(`Failed to load flag for country code: ${finalCountryCode}`, err)
+        setError(true)
+      }
+    }
+
+    fetchSvg()
+  }, [finalCountryCode, cdnUrl, normalizedCode])
+
+  // Loading state
+  if (!svgContent && !error) {
+    return (
+      <svg
+        viewBox="0 0 512 512"
+        width={width}
+        height={height}
+        className={className}
+        role="img"
+        aria-label={defaultTitle}
+        {...props}
+      >
+        <title id={titleId}>{defaultTitle}</title>
+        <circle cx="256" cy="256" r="256" fill="#f5f5f5" />
+        <circle cx="256" cy="256" r="200" fill="#e0e0e0" className="animate-pulse" />
+      </svg>
+    )
   }
 
+  // Error state - fallback flag
+  if (error || !svgContent) {
+    return (
+      <svg
+        viewBox="0 0 512 512"
+        width={width}
+        height={height}
+        className={className}
+        role="img"
+        aria-label={defaultTitle}
+        aria-labelledby={titleId}
+        {...props}
+      >
+        <title id={titleId}>{defaultTitle}</title>
+        <circle cx="256" cy="256" r="256" fill="#f0f0f0" />
+        <circle cx="256" cy="256" r="200" fill="#e0e0e0" />
+        <text x="256" y="280" textAnchor="middle" fontSize="80" fontWeight="bold" fill="#666">
+          {upperCode}
+        </text>
+      </svg>
+    )
+  }
+
+  // Success state - render SVG from CDN
+  // Inject width/height="100%" to SVG to inherit parent container size
+  const svgWithSize = svgContent.replace(/<svg([^>]*)>/, '<svg$1 width="100%" height="100%">')
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      width={48}
-      height={48}
+    <div
+      className={className}
+      style={{ width, height, display: 'inline-block' }}
+      dangerouslySetInnerHTML={{ __html: svgWithSize }}
       role="img"
-      aria-label={resolvedTitle}
-      aria-labelledby={titleId}
-      {...props}
-    >
-      <title id={titleId}>{resolvedTitle}</title>
-      <circle cx="256" cy="256" r="256" fill="#f0f0f0" />
-      <circle cx="256" cy="256" r="200" fill="#e0e0e0" />
-      <text x="256" y="280" textAnchor="middle" fontSize="80" fontWeight="bold" fill="#666">
-        {upperCode}
-      </text>
-    </svg>
+      aria-label={defaultTitle}
+      {...(props as object)}
+    />
   )
 }
 
-// Backward-compatible component alias
-export const CircleFlag: typeof DynamicFlag = DynamicFlag
+export interface DynamicFlagProps extends FlagComponentProps {
+  /** ISO country code (e.g., 'us', 'cn', 'gb') */
+  code: string
+}
+
+/**
+ * Dynamic flag component that bundles all flags
+ * Renders flags based on runtime country code
+ *
+ * WARNING: This component bundles ALL 400+ flag components in your bundle (~600KB).
+ * For minimal bundle size, use CircleFlag instead (loads from CDN) or import
+ * specific flags: import { FlagUs } from '@sankyu/react-circle-flags'
+ *
+ * @example
+ * import { DynamicFlag } from '@sankyu/react-circle-flags'
+ * <DynamicFlag code="us" width={48} height={48} />
+ */
+export const DynamicFlag = ({
+  code,
+  width = 48,
+  height = 48,
+  title,
+  ...props
+}: DynamicFlagProps): ReactElement => {
+  const titleId = useId() // Must be called at top level
+  const normalizedCode = code.toLowerCase()
+  const componentName = FLAG_REGISTRY[normalizedCode as FlagCode]
+
+  if (!componentName) {
+    const upperCode = code.toUpperCase()
+    const emoji = codeToEmoji(code)
+    const defaultTitle = title ?? `${emoji} ${upperCode}`
+
+    // Fallback for unknown country code
+    return (
+      <svg
+        viewBox="0 0 512 512"
+        width={width}
+        height={height}
+        role="img"
+        aria-label={defaultTitle}
+        aria-labelledby={titleId}
+        {...props}
+      >
+        <title id={titleId}>{defaultTitle}</title>
+        <circle cx="256" cy="256" r="256" fill="#f0f0f0" />
+        <circle cx="256" cy="256" r="200" fill="#e0e0e0" />
+        <text x="256" y="280" textAnchor="middle" fontSize="80" fontWeight="bold" fill="#666">
+          {upperCode}
+        </text>
+      </svg>
+    )
+  }
+
+  // Get flag component from the bundled flags
+  // All flags are imported via `import * as AllFlags`, so bundle size will be large
+  const FlagComponent = AllFlags[componentName as keyof typeof AllFlags] as unknown as (
+    props: FlagComponentProps
+  ) => ReactElement
+
+  if (!FlagComponent || typeof FlagComponent !== 'function') {
+    // This should never happen if FLAG_REGISTRY is in sync
+    console.error(`Flag component not found for code: ${code}`)
+    return <div>Flag not found: {code}</div>
+  }
+
+  return <FlagComponent width={width} height={height} title={title} {...props} />
+}
 
 /**
  * All available country/region flag codes
@@ -186,21 +316,7 @@ export const CircleFlag: typeof DynamicFlag = DynamicFlag
  */
 export type CountryCode = FlagCode
 
-// Re-export all individual flags for tree-shaking
-/** @internal */
-/* istanbul ignore next */
+// Re-export all flag components for tree-shaking
+// Modern bundlers will automatically tree-shake unused exports
+// import { FlagUs, FlagCn } from '@sankyu/react-circle-flags' ✅ Works with tree-shaking
 export * from '../generated/flags'
-/** @internal */
-/* istanbul ignore next */
-export {
-  FlagUs as FlagUS,
-  FlagCn as FlagCN,
-  FlagGb as FlagGB,
-  FlagJp as FlagJP,
-} from '../generated/flags'
-
-// Export the flag registry for dynamic loading
-/* istanbul ignore next */
-export type { FlagCode } from '../generated/flags'
-/* istanbul ignore next */
-export { FLAG_REGISTRY } from '../generated/flags'

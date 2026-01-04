@@ -6,9 +6,37 @@ description: Render flags from runtime ISO codes.
 import { Card, CardGrid } from '@astrojs/starlight/components'
 import { LinkCard } from '@astrojs/starlight/components'
 
-When you need to render flags based on runtime data (user input, API responses, database values), use the `DynamicFlag` component.
+When you need to render flags based on runtime data (user input, API responses, database values), you have two options:
 
-## Use DynamicFlag
+## Option 1: CircleFlag (Recommended)
+
+Use `CircleFlag` for **minimal bundle size** with on-demand CDN loading:
+
+```tsx
+import { CircleFlag } from '@sankyu/react-circle-flags'
+
+export function CountryFlag({ code }: { code: string }) {
+  return <CircleFlag countryCode={code} width={36} height={36} title="Country flag" />
+}
+```
+
+:::tip[Best for Most Cases]
+`CircleFlag` loads SVG flags from CDN on demand, adding only ~2 KB to your bundle while supporting all 400+ flags.
+:::
+
+**Backward Compatible API:**
+
+For compatibility with `react-circle-flags`, you can also use the `code` prop:
+
+```tsx
+// Both work the same way
+<CircleFlag countryCode="us" width={36} />
+<CircleFlag code="us" width={36} />
+```
+
+## Option 2: DynamicFlag
+
+Use `DynamicFlag` when you need synchronous rendering and **cannot use CDN**:
 
 ```tsx
 import { DynamicFlag } from '@sankyu/react-circle-flags'
@@ -17,6 +45,14 @@ export function CountryFlag({ code }: { code: string }) {
   return <DynamicFlag code={code} width={36} height={36} />
 }
 ```
+
+:::caution[Large Bundle Size]
+`DynamicFlag` bundles **ALL 400+ flag components** (~600 KB) in your bundle. Only use this if:
+
+- You cannot access CDN in your environment
+- You need synchronous, instant rendering without loading states
+- Bundle size is not a primary concern
+  :::
 
 ## When to use it
 
@@ -30,9 +66,39 @@ export function CountryFlag({ code }: { code: string }) {
   <Card title="Database Records" icon="seti:db">
     User profiles or records stored with country information.
   </Card>
+  <Card title="Runtime Values" icon="random">
+    Any scenario where the country code is not known at build time.
+  </Card>
 </CardGrid>
 
 ## Real-world example
+
+### With CircleFlag (Recommended)
+
+```tsx
+import { CircleFlag } from '@sankyu/react-circle-flags'
+
+interface User {
+  name: string
+  countryCode: string
+}
+
+export function UserProfile({ user }: { user: User }) {
+  return (
+    <div className="flex items-center gap-3">
+      <CircleFlag
+        countryCode={user.countryCode.toLowerCase()}
+        width={32}
+        height={32}
+        title={`${user.name}'s country`}
+      />
+      <span>{user.name}</span>
+    </div>
+  )
+}
+```
+
+### With DynamicFlag
 
 ```tsx
 import { DynamicFlag } from '@sankyu/react-circle-flags'
@@ -45,56 +111,84 @@ interface User {
 export function UserProfile({ user }: { user: User }) {
   return (
     <div className="flex items-center gap-3">
-      <DynamicFlag code={user.countryCode.toLowerCase()} width={32} height={32} />
+      <DynamicFlag
+        code={user.countryCode.toLowerCase()}
+        width={32}
+        height={32}
+        title={`${user.name}'s country`}
+      />
       <span>{user.name}</span>
     </div>
   )
 }
 ```
 
+## Bundle Size Comparison
+
+<CardGrid>
+  <Card title="CircleFlag (Best)" icon="star">
+    ```tsx
+    import { CircleFlag } from '@sankyu/react-circle-flags'
+    ```
+    - **Bundle impact:** ~2 KB (component only)
+    - **Loading:** Async from CDN
+    - **Tree-shaking:** ✅ Perfect
+    - **Best for:** Minimal bundle size with dynamic flags
+  </Card>
+
+  <Card title="DynamicFlag" icon="warning">
+    ```tsx
+    import { DynamicFlag } from '@sankyu/react-circle-flags'
+    ```
+    - **Bundle impact:** ~600 KB (all flags bundled)
+    - **Loading:** Synchronous, instant
+    - **Tree-shaking:** ❌ None
+    - **Best for:** CDN-restricted environments
+  </Card>
+</CardGrid>
+
 :::tip[Code Normalization]
-`DynamicFlag` automatically converts country codes to lowercase, so both `"US"` and `"us"` will work correctly.
+Both `CircleFlag` and `DynamicFlag` automatically convert country codes to lowercase, so `"US"` and `"us"` work identically.
 :::
 
-## Trade-offs
+## Advanced: CircleFlag with Custom CDN
 
-:::caution[Bundle Size Impact]
-`DynamicFlag` loads the **full flag registry** (~400+ flags) into your bundle. This is necessary to support runtime flag selection, but it increases bundle size.
-
-**Alternatives:**
-
-- If you only need a few specific flags, use direct imports: `import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'`
-- If you can determine flags at build time, prefer static imports for better tree-shaking
-  :::
-
-## Comparison
-
-<Card title="Named Imports" icon="approve-check">
+For better performance or region-specific optimization:
 
 ```tsx
-import { FlagUs } from '@sankyu/react-circle-flags'
+import { CircleFlag } from '@sankyu/react-circle-flags'
+
+export function CountryFlag({ code }: { code: string }) {
+  return (
+    <CircleFlag
+      countryCode={code}
+      width={36}
+      height={36}
+      cdnUrl="https://custom-cdn.example.com/flags/"
+    />
+  )
+}
 ```
 
-- **Best for:** Static, known flags
-- **Bundle impact:** Minimal (only imported flags)
-- **Tree-shaking:** ✅ Excellent
+## Decision Tree
 
-</Card>
+```
+Need dynamic flags?
+├─ Can use CDN? → ✅ Use CircleFlag (~2 KB)
+└─ Cannot use CDN? → Use DynamicFlag (~600 KB)
+```
 
-<Card title="DynamicFlag" icon="warning">
-  ```tsx
-  import { DynamicFlag } from '@sankyu/react-circle-flags'
-  ```
-  - **Best for:** Runtime country codes  
-  - **Bundle impact:** Full registry (~400+ flags)  
-  - **Tree-shaking:** ⚠️ Limited
+**Note:** For flags known at build time, use named imports for best bundle size:
 
-</Card>
+```tsx
+import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+// ~950 bytes per flag with tree-shaking
+```
 
 ## Next step
 
 <LinkCard
-  title="TypeScript"
-  description="Learn about type safety and SVG prop types for flag components"
-  href="./typescript/"
+  title="Bundle Size"
+  description="Learn about bundle size optimization and tree-shaking strategies"
+  href="../bundle-size/"
 />

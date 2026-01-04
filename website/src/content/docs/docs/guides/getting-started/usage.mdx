@@ -3,13 +3,13 @@ title: Basic Usage
 description: Import and render flag components.
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import { LinkCard } from '@astrojs/starlight/components';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+import { Tabs, TabItem } from '@astrojs/starlight/components'
 
 ## Import individual flags
 
-Import only the flags you need for optimal **tree-shaking** and minimal bundle size.
+Import flags from the main entry — **tree-shaking automatically** ensures you only bundle what you use:
 
 ```tsx
 import { FlagUs, FlagCn, FlagGb } from '@sankyu/react-circle-flags'
@@ -25,8 +25,10 @@ export default function Header() {
 }
 ```
 
-:::tip[Best Practice]
-Always use **named imports** instead of namespace imports (`import * as Flags`) to ensure unused flags are excluded from your bundle.
+:::tip[Tree-shaking Optimization]
+Modern bundlers automatically tree-shake unused flags. Importing 3 flags only adds **~2.8 KB** to your bundle, not the entire library.
+
+No special configuration needed — it just works!
 :::
 
 ## Naming convention
@@ -38,10 +40,7 @@ All flag components follow a consistent naming pattern:
     Components use the format **`Flag{ISO}`** where ISO is the uppercase country code.
   </Card>
   <Card title="Examples" icon="list-format">
-    - `FlagUs` → United States
-    - `FlagCn` → China
-    - `FlagGb` → Great Britain
-    - `FlagJp` → Japan
+    - `FlagUs` → United States - `FlagCn` → China - `FlagGb` → Great Britain - `FlagJp` → Japan
   </Card>
 </CardGrid>
 
@@ -66,6 +65,7 @@ The library works seamlessly with all modern React frameworks:
       )
     }
     ```
+
   </TabItem>
   <TabItem label="Remix" icon="seti:yml">
     ```tsx
@@ -74,8 +74,8 @@ The library works seamlessly with all modern React frameworks:
     export default function Index() {
       return (
         <div>
-          <h1>Welcome</h1>
-          <div className="flag-container">
+          <h1>Country Flags</h1>
+          <div className="flex gap-4">
             <FlagUs width={48} height={48} />
             <FlagCn width={48} height={48} />
           </div>
@@ -83,6 +83,7 @@ The library works seamlessly with all modern React frameworks:
       )
     }
     ```
+
   </TabItem>
   <TabItem label="Vite" icon="seti:javascript">
     ```tsx
@@ -91,8 +92,8 @@ The library works seamlessly with all modern React frameworks:
     function App() {
       return (
         <>
-          <h1>My App</h1>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <h1>Country Flags</h1>
+          <div className="flex gap-4">
             <FlagUs width={56} height={56} />
             <FlagCn width={56} height={56} />
           </div>
@@ -102,6 +103,7 @@ The library works seamlessly with all modern React frameworks:
 
     export default App
     ```
+
   </TabItem>
 </Tabs>
 
@@ -110,5 +112,5 @@ The library works seamlessly with all modern React frameworks:
 <LinkCard
   title="Styling"
   description="Learn how to customize flag appearance with CSS classes and inline styles"
-  href="./styling/"
+  href="../styling/"
 />

@@ -1,6 +1,5 @@
 import { readdirSync, readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { generateFlagsDts } from './generate-dts.ts'
 
 /**
  * Post-processing script: Replace var with const in dist/flags
@@ -39,15 +38,28 @@ function postProcessFlags() {
   }
 }
 
-async function run() {
-  postProcessFlags()
+/**
+ * Cleanup redundant type files
+ * Remove all .d.ts files in dist/flags/ (types unified to dist/index.d.ts)
+ */
+function cleanupRedundantFiles() {
+  const flagsDir = join(process.cwd(), 'dist/flags')
 
   try {
-    await generateFlagsDts()
-    console.log('✅ Generated flag d.ts files')
+    const files = readdirSync(flagsDir)
+    let removedCount = 0
+
+    for (const file of files) {
+      if (file.endsWith('.d.ts')) {
+        const filePath = join(flagsDir, file)
+        unlinkSync(filePath)
+        removedCount++
+      }
+    }
+
+    console.log(`✅ Removed ${removedCount} redundant .d.ts files in dist/flags/`)
   } catch (error) {
-    console.error('❌ Failed to generate d.ts:', error)
-    process.exit(1)
+    console.error('⚠️  Failed to cleanup dist/flags/*.d.ts:', error)
   }
 
   // Remove redundant .d.cts file (same as .d.ts)
@@ -56,6 +68,11 @@ async function run() {
     unlinkSync(dctsPath)
     console.log('✅ Removed redundant index.d.cts')
   }
+}
+
+function run() {
+  postProcessFlags()
+  cleanupRedundantFiles()
 }
 
 run()

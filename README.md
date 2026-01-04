@@ -8,6 +8,8 @@
 
 [![npm version](https://img.shields.io/npm/v/%40sankyu%2Freact-circle-flags?style=flat-square&label=%40sankyu%2Freact-circle-flags)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![npm downloads](https://img.shields.io/npm/dm/@sankyu/react-circle-flags.svg?style=flat-square&label=NPM%20Downloads)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/@sankyu/react-circle-flags?style=flat-square&label=Bundle%20Size)](https://bundlephobia.com/package/@sankyu/react-circle-flags)
 
+[![CI](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/ci.yml/badge.svg)](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/ci.yml) [![Release](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/release.yml/badge.svg)](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/release.yml) [![codecov](https://codecov.io/gh/SanKyu-Lab/react-circle-flags/branch/main/graph/badge.svg?token=YHZ46T51AG)](https://codecov.io/gh/SanKyu-Lab/react-circle-flags)
+
 [![TypeScript Supported](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![React Ready](https://img.shields.io/badge/React-%3E%3D16.0.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=opensourceinitiative)](./LICENSE)
 
 :star: **Star us on [GitHub](https://github.com/Sankyu-Lab/react-circle-flags)** | :bug: **Report Issues [here](https://github.com/Sankyu-Lab/react-circle-flags/issues)**
@@ -43,9 +45,6 @@ Perfect for applications that need fast, crisp country flags without external im
 
 ## 📦 Installation
 
-> [!TIP]
-> For more information, you may refer to the [Installation Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/installation/).
-
 ```bash
 npm install @sankyu/react-circle-flags
 # or
@@ -56,10 +55,10 @@ yarn add @sankyu/react-circle-flags
 bun add @sankyu/react-circle-flags
 ```
 
-## 🚀 Usage
-
 > [!TIP]
-> For more information, you may refer to the [Usage Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
+> For more information, you may refer to the [Installation Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/installation/).
+
+## 🚀 Usage
 
 ### Import individual flags (Recommended)
 
@@ -76,6 +75,9 @@ export default function App() {
   )
 }
 ```
+
+> [!TIP]
+> For more information, you may refer to the [Usage Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
 
 ### With custom styling
 
@@ -99,9 +101,6 @@ export default function StyledFlag() {
 > [!WARNING]
 > ⚠️ Using `DynamicFlag` or `import * as Flags` will pull all flag components into the bundle, which can reduce tree-shaking efficiency and increase bundle size.
 
-> [!TIP]
-> For more information, you may refer to the [Dynamic Flag Selection](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/) section in the documentation.
-
 ```tsx
 import { DynamicFlag } from '@sankyu/react-circle-flags'
 
@@ -117,6 +116,9 @@ export const CountryFlag = ({ countryCode, size = 48 }: CountryFlagProps) => {
 // Usage
 ;<CountryFlag countryCode="us" size={64} />
 ```
+
+> [!TIP]
+> For more information, you may refer to the [Dynamic Flag Selection](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/) section in the documentation.
 
 ## 📚 API
 
@@ -144,59 +146,33 @@ Each flag is exported with the pattern `Flag{PascalCase ISO_CODE}` (for example,
 - `FlagJp` - Japan
 - ... and many more
 
-See the [Full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the circle-flags gallery.
+See the [Full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the react-circle-flags gallery.
 
 ## 🎨 Styling
+
+Flag components accept all standard SVG props, making them easy to style with any CSS approach.
 
 > [!TIP]
 > For more information, you may refer to the [Styling Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/styling/).
 
 ## 🔧 TypeScript
 
-Full TypeScript support is included out of the box.
+All flag components are fully typed with TypeScript, providing autocomplete and type safety out of the box.
 
+> [!TIP]
 > For more information, you may refer to the [TypeScript Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/typescript/).
 
 ## 📖 Examples
 
-### Next.js App Router
+> [!TIP]
+> For more information, you may refer to the [Guide - Basic Usage](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
 
-```tsx
-import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+## 📦 Bundle Size & Tree-shaking
 
-export default function Page() {
-  return (
-    <main>
-      <h1>Country Flags</h1>
-      <div className="flex gap-4">
-        <FlagUs width={64} height={64} />
-        <FlagCn width={64} height={64} />
-      </div>
-    </main>
-  )
-}
-```
+`@sankyu/react-circle-flags` is designed to be tree-shakable. Importing individual flags ensures that only the used flags are included in your bundle.
 
-### With React Query
-
-```tsx
-import { useQuery } from '@tanstack/react-query'
-import { DynamicFlag } from '@sankyu/react-circle-flags'
-
-function CountryInfo({ code }: { code: string }) {
-  const { data } = useQuery({
-    queryKey: ['country', code],
-    queryFn: () => fetchCountryData(code),
-  })
-
-  return (
-    <div>
-      <DynamicFlag code={code.toLowerCase()} width={48} height={48} />
-      <p>{data?.name}</p>
-    </div>
-  )
-}
-```
+> [!TIP]
+> For more information, you may refer to the [Bundle Size & Tree-shaking Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/bundle-size/).
 
 ## 🤝 Contributing
 

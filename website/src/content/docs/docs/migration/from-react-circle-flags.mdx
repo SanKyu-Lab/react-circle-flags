@@ -1,0 +1,187 @@
+---
+title: Migrate from react-circle-flags
+description: Switch from react-circle-flags to @sankyu/react-circle-flags
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+Quick guide for migrating from `react-circle-flags` to `@sankyu/react-circle-flags`.
+
+## Why Switch?
+
+<CardGrid>
+  <Card title="Bundle Size" icon="rocket">
+    **Much smaller** with tree-shaking (~950 bytes per flag vs. 200 KB+)
+  </Card>
+  <Card title="TypeScript" icon="seti:typescript">
+    Full type definitions with autocomplete for all 400+ flags
+  </Card>
+  <Card title="Modern" icon="star">
+    JSX automatic runtime, React 19 ready, zero dependencies
+  </Card>
+</CardGrid>
+
+## Two Migration Paths
+
+### Path 1: API-Compatible (CircleFlag)
+
+**Quick migration with minimal changes** — compatible component API:
+
+<Tabs syncKey="migration">
+  <TabItem label="Before" icon="information">
+    ```tsx
+    import { CircleFlag } from 'react-circle-flags'
+
+    <CircleFlag countryCode="us" height="35" />
+    ```
+
+  </TabItem>
+  <TabItem label="After" icon="star">
+    ```tsx
+    import { CircleFlag } from '@sankyu/react-circle-flags'
+
+    <CircleFlag countryCode="us" height={35} />
+    ```
+
+  </TabItem>
+</Tabs>
+
+- ✅ Drop-in replacement, same `countryCode` prop
+- ✅ Loads SVGs from CDN (~2 KB bundle)
+- ⚠️ Requires network for SVG loading
+- ✅ Also supports `code` prop for backward compatibility
+
+### Path 2: Named Imports (Recommended)
+
+**Best performance** — bundled SVGs, automatic tree-shaking:
+
+<Tabs syncKey="migration">
+  <TabItem label="Before" icon="information">
+    ```tsx
+    import { CircleFlag } from 'react-circle-flags'
+
+    <CircleFlag countryCode="us" height="35" />
+    <CircleFlag countryCode="cn" height="35" />
+    ```
+
+  </TabItem>
+  <TabItem label="After" icon="star">
+    ```tsx
+    import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+
+    <FlagUs width={35} height={35} />
+    <FlagCn width={35} height={35} />
+    ```
+
+  </TabItem>
+</Tabs>
+
+- ✅ Automatic tree-shaking (~950 bytes per flag)
+- ✅ No network requests, works offline
+- ✅ TypeScript autocomplete
+- ✅ Synchronous rendering, no loading states
+
+## Bundle Size Comparison
+
+| Approach                    | Bundle Size | Network | Offline |
+| --------------------------- | ----------- | ------- | ------- |
+| `react-circle-flags`        | ~200 KB+    | None    | ✅      |
+| `CircleFlag` (CDN)          | ~2 KB       | Per flag| ❌      |
+| Named imports (3 flags)     | ~2.8 KB     | None    | ✅      |
+
+## Migration Steps
+
+<Tabs syncKey="pkg">
+  <TabItem label="npm" icon="seti:npm">
+    ```bash
+    npm uninstall react-circle-flags
+    npm install @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+  <TabItem label="pnpm" icon="pnpm">
+    ```bash
+    pnpm remove react-circle-flags
+    pnpm add @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+  <TabItem label="yarn" icon="seti:yarn">
+    ```bash
+    yarn remove react-circle-flags
+    yarn add @sankyu/react-circle-flags
+    ```
+
+  </TabItem>
+</Tabs>
+
+**Update imports:**
+
+```diff
+# Path 1: API-compatible
+- import { CircleFlag } from 'react-circle-flags'
++ import { CircleFlag } from '@sankyu/react-circle-flags'
+
+# Path 2: Named imports (recommended)
+- import { CircleFlag } from 'react-circle-flags'
++ import { FlagUs, FlagCn } from '@sankyu/react-circle-flags'
+```
+
+**Update props:**
+
+```diff
+  <CircleFlag
+    countryCode="us"
+-   height="35"      // string
++   height={35}      // number
+  />
+```
+
+## Dynamic Country Codes
+
+If country codes are determined at runtime:
+
+<Tabs syncKey="dynamic">
+  <TabItem label="CircleFlag (CDN)" icon="star">
+    ```tsx
+    import { CircleFlag } from '@sankyu/react-circle-flags'
+
+    function UserFlag({ code }: { code: string }) {
+      return <CircleFlag countryCode={code} height={32} />
+    }
+    ```
+
+    **Bundle:** ~2 KB
+
+  </TabItem>
+  <TabItem label="DynamicFlag (Bundled)" icon="information">
+    ```tsx
+    import { DynamicFlag } from '@sankyu/react-circle-flags'
+
+    function UserFlag({ code }: { code: string }) {
+      return <DynamicFlag code={code} width={32} height={32} />
+    }
+    ```
+
+    **Bundle:** ~600 KB (all flags bundled)
+
+  </TabItem>
+</Tabs>
+
+## Key Differences
+
+| Feature                | `react-circle-flags`  | `@sankyu/react-circle-flags` |
+| ---------------------- | --------------------- | ---------------------------- |
+| Default import style   | `<CircleFlag />`      | Named exports or CircleFlag  |
+| Prop format            | `height="35"`         | `height={35}`                |
+| Tree-shaking           | ❌ Limited            | ✅ Excellent                 |
+| TypeScript             | ❌ No types           | ✅ Full types                |
+| Bundle size (3 flags)  | ~200 KB               | ~2.8 KB                      |
+| Dynamic loading        | ❌ No                 | ✅ CircleFlag (CDN)          |
+| Offline support        | ✅ Yes                | ✅ Yes (named imports)       |
+
+## Need Help?
+
+- 📖 [Full Documentation](/docs/guides/getting-started/)
+- 🐛 [GitHub Issues](https://github.com/Sankyu-Lab/react-circle-flags/issues)
