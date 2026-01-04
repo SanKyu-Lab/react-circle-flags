@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.0...v1.4.1) (2026-01-04)
+
+### Features
+
+* **docs:** Update CDN usage and dynamic flags docs for  builds ([4350144](https://github.com/SanKyu-Lab/react-circle-flags/commit/4350144eaf139c0db6535ccb896153c0b6479872))
+* **sanitization:** Impl SVG sanitization to prevent script injection ([ae9771e](https://github.com/SanKyu-Lab/react-circle-flags/commit/ae9771eae0c74aa0a479dc66ed148f7ed150df33))
 ## [1.4.0](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.3.4...v1.4.0) (2026-01-04)
 
 ### Features
