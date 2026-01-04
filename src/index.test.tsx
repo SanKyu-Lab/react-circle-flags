@@ -242,6 +242,114 @@ describe('CircleFlag CDN loading', () => {
       expect(container.innerHTML).not.toContain('<script>')
     })
   })
+
+  test('should strip event handler attributes from fetched SVG', async () => {
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      text: async () =>
+        '<svg><circle cx="0" cy="0" r="1" onload="alert(1)" onclick="alert(2)"/></svg>',
+    })
+
+    render(<CircleFlag countryCode="us" data-testid="flag-events" />)
+
+    await waitFor(() => {
+      const container = screen.getByTestId('flag-events')
+      expect(container.innerHTML).not.toContain('onload')
+      expect(container.innerHTML).not.toContain('onclick')
+    })
+  })
+
+  test('should strip javascript: hrefs from fetched SVG', async () => {
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      text: async () =>
+        '<svg><use href="javascript:alert(1)" xlink:href="javascript:alert(2)"/></svg>',
+    })
+
+    render(<CircleFlag countryCode="us" data-testid="flag-href" />)
+
+    await waitFor(() => {
+      const container = screen.getByTestId('flag-href')
+      expect(container.innerHTML).not.toContain('javascript:')
+    })
+  })
+
+  test('should run href sanitizer branch with DOMParser present', async () => {
+    const originalParser = global.DOMParser
+    let parserCalled = false
+
+    class MockParser {
+      parseFromString() {
+        parserCalled = true
+        return {
+          querySelector: () => null,
+          documentElement: {
+            outerHTML: '<svg><use/></svg>',
+            querySelectorAll: (selector: string) => {
+              if (selector === 'script,foreignObject') {
+                return [{ remove: jest.fn() }]
+              }
+              if (selector === '*') {
+                return [
+                  {
+                    attributes: [
+                      {
+                        name: 'href',
+                        value: 'javascript:alert(1)',
+                        removeAttribute: jest.fn(),
+                      },
+                      {
+                        name: 'xlink:href',
+                        value: 'javascript:alert(2)',
+                        removeAttribute: jest.fn(),
+                      },
+                    ],
+                  },
+                ]
+              }
+              return []
+            },
+          },
+        }
+      }
+    }
+
+    // @ts-expect-error - override for test
+    global.DOMParser = MockParser as unknown as typeof DOMParser
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      text: async () => '<svg><use href="javascript:alert(1)"/></svg>',
+    })
+
+    render(<CircleFlag countryCode="us" data-testid="flag-href-parser" />)
+
+    await waitFor(() => {
+      const container = screen.getByTestId('flag-href-parser')
+      expect(parserCalled).toBe(true)
+      expect(container.innerHTML).not.toContain('javascript:')
+    })
+
+    global.DOMParser = originalParser
+  })
+
+  test('should fall back when DOMParser is unavailable', async () => {
+    const originalParser = global.DOMParser
+    // @ts-expect-error - simulate absence
+    global.DOMParser = undefined
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      text: async () => '<svg><script>alert(1)</script></svg>',
+    })
+
+    render(<CircleFlag countryCode="us" data-testid="flag-no-parser" />)
+
+    await waitFor(() => {
+      const container = screen.getByTestId('flag-no-parser')
+      expect(container.innerHTML).toContain('<script>')
+    })
+
+    global.DOMParser = originalParser
+  })
 })
 
 describe('getSizeName helper', () => {
