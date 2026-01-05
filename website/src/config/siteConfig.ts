@@ -26,13 +26,13 @@ export const siteConfig = {
   },
 
   // Site URLs
-  site: 'https://sankyu-lab.github.io/react-circle-flags',
-  base: '/react-circle-flags',
+  site: 'https://react-circle-flags.js.org',
+  base: '/',
 
   // Social image (Socialify)
   socialImage:
     'https://socialify.git.ci/SanKyu-Lab/react-circle-flags/image?custom_description=%F0%9F%93%A6NPM+Package%3A+%40sankyu%2Freact-circle-flags&custom_language=TypeScript&description=1&font=Bitter&forks=1&issues=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FSanKyu-Lab%2Freact-circle-flags%2Frefs%2Fheads%2Fmain%2Fwebsite%2Fpublic%2Ffavicon.svg&name=1&owner=1&pulls=1&stargazers=1&theme=Light',
 
   // Favicon
-  favicon: '/react-circle-flags/favicon.svg',
+  favicon: '/favicon.svg',
 } as const
