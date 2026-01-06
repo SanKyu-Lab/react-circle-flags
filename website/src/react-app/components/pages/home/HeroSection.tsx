@@ -3,7 +3,7 @@ import { Check, Copy } from 'lucide-react'
 import FlagShowcase from '../../flag-showcase/FlagShowcase'
 import SpotlightCard from '../../animated-ui/SpotlightCard'
 import Tabs from '../../animated-ui/Tabs'
-import pkg from '../../../../../package.json'
+import pkg from '../../../../package.json'
 
 interface HeroSectionProps {
   flagCount: number
