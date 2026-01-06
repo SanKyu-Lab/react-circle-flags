@@ -1,3 +1,11 @@
+## [1.4.2](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.1...v1.4.2) (2026-01-06)
+
+### Features
+
+* **config:** Refactor site config and metadata management ([1a1e624](https://github.com/SanKyu-Lab/react-circle-flags/commit/1a1e6241893aca44daeb70eeded3589c30335ce9))
+* **dependabot:** Add workflow for auto-merging and tagging of updates ([e8b3bad](https://github.com/SanKyu-Lab/react-circle-flags/commit/e8b3bad71295dc7a9f9992f9f1a3d6303f732578))
+* **tests:** Add SVG sanitization tests for event handlers and hrefs ([bcee618](https://github.com/SanKyu-Lab/react-circle-flags/commit/bcee61877b00b3cc32fdb71b8caa8e45b3f3bcf9))
+* **website:** Update site URLs and add CNAME for deployment ([1fe9c88](https://github.com/SanKyu-Lab/react-circle-flags/commit/1fe9c887e392902fd8973c1e09162c14397d65f5))
 ## [1.4.1](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.0...v1.4.1) (2026-01-04)
 
 ### Features
