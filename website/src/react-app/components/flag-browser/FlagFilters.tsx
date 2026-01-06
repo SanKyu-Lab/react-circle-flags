@@ -53,7 +53,6 @@ export default function FlagFilters({
 }: FlagFiltersProps) {
   const selectClass =
     'w-full rounded-xl border border-(--border-strong) bg-(--overlay-mid) px-3 py-2 text-sm text-(--ink) focus:outline-none focus:border-(--accent) transition appearance-none'
-  const selectStyle = { backgroundColor: 'var(--overlay-mid)', color: 'var(--ink)' }
   const hasActiveFilters =
     selectedRegion !== 'all' ||
     selectedContinent !== 'all' ||
@@ -93,7 +92,6 @@ export default function FlagFilters({
               value={selectedRegion}
               onChange={event => onRegionChange(event.target.value)}
               className={selectClass}
-              style={selectStyle}
             >
               {regionOptions.map(region => (
                 <option key={region.value} value={region.value}>
@@ -111,7 +109,6 @@ export default function FlagFilters({
               value={selectedContinent}
               onChange={event => onContinentChange(event.target.value)}
               className={selectClass}
-              style={selectStyle}
             >
               {continentOptions.map(continent => (
                 <option key={continent.value} value={continent.value}>
@@ -129,7 +126,6 @@ export default function FlagFilters({
               value={selectedType}
               onChange={event => onTypeChange(event.target.value as FilterType)}
               className={selectClass}
-              style={selectStyle}
             >
               {typeOptions.map(type => (
                 <option key={type.value} value={type.value}>
@@ -147,7 +143,6 @@ export default function FlagFilters({
               value={selectedCurrency}
               onChange={event => onCurrencyChange(event.target.value)}
               className={selectClass}
-              style={selectStyle}
             >
               {currencyOptions.map(currency => (
                 <option key={currency.value} value={currency.value}>
