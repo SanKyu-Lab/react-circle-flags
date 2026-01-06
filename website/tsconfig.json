@@ -2,7 +2,6 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "baseUrl": ".",
-    "resolveJsonModule": true,
     "paths": {
       "@sankyu/react-circle-flags": ["../src/index.tsx"],
       "@sankyu/react-circle-flags/*": ["../src/*"]
