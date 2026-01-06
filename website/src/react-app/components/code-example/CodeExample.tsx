@@ -108,7 +108,7 @@ function Header() {
 
   return (
     <div className="space-y-4">
-      <div className="code-block p-4 space-y-3 rounded-2xl border border-(--border-strong) bg-(--surface)">
+      <div className="code-block p-4 space-y-3 rounded-2xl border border-(--border-strong) bg-[#08090e]">
         <Tabs
           items={installCommands.map(entry => ({
             id: entry.id,
@@ -141,7 +141,7 @@ function Header() {
           </div>
         ) : null}
       </div>
-      <div className="code-block p-4">
+      <div className="code-block p-4 bg-[#08090e]">
         <p className="text-xs uppercase tracking-[0.2em] text-(--muted)">Usage</p>
         {usageHtml ? (
           <div className="mt-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: usageHtml }} />
