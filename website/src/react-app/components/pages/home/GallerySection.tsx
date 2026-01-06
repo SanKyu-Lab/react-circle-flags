@@ -19,7 +19,13 @@ export default function GallerySection({ onFilterNavigate }: GallerySectionProps
         .map(code => ({
           id: code,
           node: (
-            <DynamicFlag code={code} width={76} height={76} title={`Flag ${code.toUpperCase()}`} />
+            <DynamicFlag
+              code={code}
+              width={76}
+              height={76}
+              className="w-12 h-12 md:w-[76px] md:h-[76px]"
+              title={`Flag ${code.toUpperCase()}`}
+            />
           ),
         })),
     []
