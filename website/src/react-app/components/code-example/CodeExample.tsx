@@ -118,6 +118,16 @@ function Header() {
     <div className="space-y-4">
       <div className="code-block p-4 space-y-3 rounded-2xl border border-(--border-strong) bg-[#08090e]">
         <Tabs items={installCommands} activeId={activeManager} onChange={setActiveManager} />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-(--muted)">Install</p>
+          <LinkButton
+            href={withBasePath('docs/guides/getting-started/#installation')}
+            target="_blank"
+            variant="solid"
+          >
+            Installation guide
+          </LinkButton>
+        </div>
         {commandText ? (
           <div className="relative rounded-xl border border-(--border-weak) bg-(--overlay-soft) px-4 py-3">
             {commandHtml ? (
@@ -141,18 +151,14 @@ function Header() {
             </button>
           </div>
         ) : null}
-        <div className="flex flex-wrap items-center justify-end pt-2">
-          <LinkButton
-            href={withBasePath('docs/guides/getting-started/#installation')}
-            target="_blank"
-            variant="solid"
-          >
-            Installation guide
-          </LinkButton>
-        </div>
       </div>
       <div className="code-block p-4 bg-[#08090e]">
-        <p className="text-xs uppercase tracking-[0.2em] text-(--muted)">Usage</p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-(--muted)">Usage</p>
+          <LinkButton href={withBasePath('docs/guides/usage/')} target="_blank" variant="solid">
+            Usage guide
+          </LinkButton>
+        </div>
         {usageHtml ? (
           <div className="mt-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: usageHtml }} />
         ) : (
@@ -160,11 +166,6 @@ function Header() {
             <code>{usageLines.map(renderLine)}</code>
           </pre>
         )}
-        <div className="flex flex-wrap items-center justify-end pt-2">
-          <LinkButton href={withBasePath('docs/guides/usage/')} target="_blank" variant="solid">
-            Usage guide
-          </LinkButton>
-        </div>
       </div>
     </div>
   )
