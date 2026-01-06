@@ -21,7 +21,34 @@ import {
   FlagBe,
 } from '@sankyu/react-circle-flags'
 
-export default function FlagShowcase() {
+interface FlagShowcaseProps {
+  onFlagClick?: (code: string) => void
+}
+
+const flagData = [
+  { Component: FlagUs, code: 'us' },
+  { Component: FlagCn, code: 'cn' },
+  { Component: FlagJp, code: 'jp' },
+  { Component: FlagDe, code: 'de' },
+  { Component: FlagGb, code: 'gb' },
+  { Component: FlagFr, code: 'fr' },
+  { Component: FlagIn, code: 'in' },
+  { Component: FlagRu, code: 'ru' },
+  { Component: FlagCa, code: 'ca' },
+  { Component: FlagKr, code: 'kr' },
+  { Component: FlagIt, code: 'it' },
+  { Component: FlagEs, code: 'es' },
+  { Component: FlagAu, code: 'au' },
+  { Component: FlagBr, code: 'br' },
+  { Component: FlagMx, code: 'mx' },
+  { Component: FlagNl, code: 'nl' },
+  { Component: FlagCh, code: 'ch' },
+  { Component: FlagSe, code: 'se' },
+  { Component: FlagNo, code: 'no' },
+  { Component: FlagBe, code: 'be' },
+] as const
+
+export default function FlagShowcase({ onFlagClick }: FlagShowcaseProps) {
   return (
     <div className="space-y-7">
       {/* Styled Variants */}
@@ -93,35 +120,15 @@ export default function FlagShowcase() {
           Language Switcher
         </p>
         <div className="flex flex-wrap items-center gap-2">
-          {[
-            FlagUs,
-            FlagCn,
-            FlagJp,
-            FlagDe,
-            FlagGb,
-            FlagFr,
-            FlagIn,
-            FlagRu,
-            FlagCa,
-            FlagKr,
-            FlagIt,
-            FlagEs,
-            FlagAu,
-            FlagBr,
-            FlagMx,
-            FlagNl,
-            FlagCh,
-            FlagSe,
-            FlagNo,
-            FlagBe,
-          ].map((Flag, idx) => (
+          {flagData.map(({ Component, code }, idx) => (
             <button
-              key={idx}
+              key={code}
               className="group relative rounded-full p-1 hover:bg-(--surface-glass) border-2 border-transparent hover:border-(--flag-blue) transition-all duration-300 hover:scale-110 animate-rise"
               style={{ animationDelay: `${(idx + 7) * 50}ms` }}
-              aria-label={`Country ${idx + 1}`}
+              aria-label={`Country ${code.toUpperCase()}`}
+              onClick={() => onFlagClick?.(code)}
             >
-              <Flag
+              <Component
                 width={32}
                 height={32}
                 className="opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-md group-hover:drop-shadow-[0_4px_12px_rgba(59,130,246,0.6)]"

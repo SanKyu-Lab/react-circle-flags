@@ -7,12 +7,18 @@ interface HomePageProps {
   flagCount: number
   onBrowseClick: () => void
   onFilterNavigate?: (code: string) => void
+  onFlagClick?: (code: string) => void
 }
 
-export default function HomePage({ flagCount, onBrowseClick, onFilterNavigate }: HomePageProps) {
+export default function HomePage({
+  flagCount,
+  onBrowseClick,
+  onFilterNavigate,
+  onFlagClick,
+}: HomePageProps) {
   return (
     <>
-      <HeroSection flagCount={flagCount} onBrowseClick={onBrowseClick} />
+      <HeroSection flagCount={flagCount} onBrowseClick={onBrowseClick} onFlagClick={onFlagClick} />
       <section className="space-y-8 mb-16">
         <GallerySection onFilterNavigate={onFilterNavigate} />
         <QuickStartSection />

@@ -12,6 +12,10 @@ export default function App() {
   const { route, currentPath, navigate } = useSpaPathRouter()
   const flagCount = useMemo(() => getFlagCount(), [])
 
+  const handleFlagNavigate = (code: string) => {
+    navigate('browse', `?countryCode=${encodeURIComponent(code)}`)
+  }
+
   const navItems = useMemo(
     () => [
       { label: 'Home', href: toRouteHref('home'), ariaLabel: 'Home page' },
@@ -46,11 +50,9 @@ export default function App() {
           <HomePage
             flagCount={flagCount}
             onBrowseClick={() => window.open(toRouteHref('browse'), '_blank')}
+            onFlagClick={handleFlagNavigate}
             onFilterNavigate={code =>
-              window.open(
-                withBasePath(`browse?filter=${encodeURIComponent(code)}`),
-                '_blank'
-              )
+              window.open(withBasePath(`browse?filter=${encodeURIComponent(code)}`), '_blank')
             }
           />
         )}

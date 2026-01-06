@@ -7,9 +7,10 @@ import Tabs from '../../animated-ui/Tabs'
 interface HeroSectionProps {
   flagCount: number
   onBrowseClick: () => void
+  onFlagClick?: (code: string) => void
 }
 
-export default function HeroSection({ flagCount, onBrowseClick }: HeroSectionProps) {
+export default function HeroSection({ flagCount, onBrowseClick, onFlagClick }: HeroSectionProps) {
   const installCommands = useMemo(
     () => [
       { id: 'pnpm', label: 'pnpm', command: 'pnpm add @sankyu/react-circle-flags' },
@@ -40,6 +41,10 @@ export default function HeroSection({ flagCount, onBrowseClick }: HeroSectionPro
     } catch {
       setCopied(false)
     }
+  }
+
+  const handleFlagClick = (code: string) => {
+    onFlagClick?.(code)
   }
 
   return (
@@ -135,7 +140,7 @@ export default function HeroSection({ flagCount, onBrowseClick }: HeroSectionPro
               <span className="text-xs font-semibold text-(--muted)">Live preview</span>
             </div>
           </div>
-          <FlagShowcase />
+          <FlagShowcase onFlagClick={handleFlagClick} />
         </div>
       </SpotlightCard>
     </section>
