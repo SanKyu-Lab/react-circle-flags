@@ -17,7 +17,7 @@ const FlagSizes: {
 };
 ```
 
-Defined in: [index.tsx:92](https://github.com/SanKyu-Lab/react-circle-flags/blob/05b5234f447660c7652da1362f751831b79c173f/src/index.tsx#L92)
+Defined in: [index.tsx:92](https://github.com/SanKyu-Lab/react-circle-flags/blob/b414196759445149e39a926481de5b83f9097cc6/src/index.tsx#L92)
 
 ## Type Declaration
 
