@@ -16,7 +16,7 @@
 
 :star: **Star us on [GitHub](https://github.com/Sankyu-Lab/react-circle-flags)** | :bug: **Report Issues [here](https://github.com/Sankyu-Lab/react-circle-flags/issues)**
 
-:rocket: **Explore the [Demo Gallery](https://sankyu-lab.github.io/react-circle-flags/browse)** | :book: **Read the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/)**
+:rocket: **Explore the [Demo Gallery](https://react-circle-flags.js.org/browse)** | :book: **Read the [Documentation](https://react-circle-flags.js.org/docs/guides/getting-started/)**
 
 </div>
 
@@ -33,7 +33,7 @@ Perfect for applications that need fast, crisp country flags without external im
 ## ✨ Key Features
 
 > [!TIP]
-> For more information, you may refer to the [Documentation](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/#-key-features).
+> For more information, you may refer to the [Documentation](https://react-circle-flags.js.org/docs/guides/getting-started/#-key-features).
 
 - 🎯 **Tree-shakable** - Only bundle the flags you use
 - 📦 **TypeScript** - Full type definitions included
@@ -56,7 +56,7 @@ bun add @sankyu/react-circle-flags
 ```
 
 > [!TIP]
-> For more information, you may refer to the [Installation Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/installation/).
+> For more information, you may refer to the [Installation Guide](https://react-circle-flags.js.org/docs/guides/getting-started/installation/).
 
 ## 🚀 Usage
 
@@ -77,7 +77,7 @@ export default function App() {
 ```
 
 > [!TIP]
-> For more information, you may refer to the [Usage Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
+> For more information, you may refer to the [Usage Guide](https://react-circle-flags.js.org/docs/guides/getting-started/usage/).
 
 ### With custom styling
 
@@ -118,7 +118,7 @@ export const CountryFlag = ({ countryCode, size = 48 }: CountryFlagProps) => {
 ```
 
 > [!TIP]
-> For more information, you may refer to the [Dynamic Flag Selection](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/dynamic-flags/) section in the documentation.
+> For more information, you may refer to the [Dynamic Flag Selection](https://react-circle-flags.js.org/docs/guides/getting-started/dynamic-flags/) section in the documentation.
 
 ## 📚 API
 
@@ -146,33 +146,33 @@ Each flag is exported with the pattern `Flag{PascalCase ISO_CODE}` (for example,
 - `FlagJp` - Japan
 - ... and many more
 
-See the [Full list of flags](https://sankyu-lab.github.io/react-circle-flags/browse) in the react-circle-flags gallery.
+See the [Full list of flags](https://react-circle-flags.js.org/browse) in the react-circle-flags gallery.
 
 ## 🎨 Styling
 
 Flag components accept all standard SVG props, making them easy to style with any CSS approach.
 
 > [!TIP]
-> For more information, you may refer to the [Styling Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/styling/).
+> For more information, you may refer to the [Styling Guide](https://react-circle-flags.js.org/docs/guides/getting-started/styling/).
 
 ## 🔧 TypeScript
 
 All flag components are fully typed with TypeScript, providing autocomplete and type safety out of the box.
 
 > [!TIP]
-> For more information, you may refer to the [TypeScript Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/typescript/).
+> For more information, you may refer to the [TypeScript Guide](https://react-circle-flags.js.org/docs/guides/getting-started/typescript/).
 
 ## 📖 Examples
 
 > [!TIP]
-> For more information, you may refer to the [Guide - Basic Usage](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/usage/).
+> For more information, you may refer to the [Guide - Basic Usage](https://react-circle-flags.js.org/docs/guides/getting-started/usage/).
 
 ## 📦 Bundle Size & Tree-shaking
 
 `@sankyu/react-circle-flags` is designed to be tree-shakable. Importing individual flags ensures that only the used flags are included in your bundle.
 
 > [!TIP]
-> For more information, you may refer to the [Bundle Size & Tree-shaking Guide](https://sankyu-lab.github.io/react-circle-flags/docs/guides/getting-started/bundle-size/).
+> For more information, you may refer to the [Bundle Size & Tree-shaking Guide](https://react-circle-flags.js.org/docs/guides/getting-started/bundle-size/).
 
 ## 🤝 Contributing
 

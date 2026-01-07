@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sankyu-lab.github.io/react-circle-flags/sitemap-index.xml
+Sitemap: https://react-circle-flags.js.org/sitemap-index.xml
