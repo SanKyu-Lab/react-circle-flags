@@ -1,16 +1,20 @@
 <div align="center">
-  <img src="./website/public/favicon.svg" alt="@sankyu/react-circle-flags" width="120" height="120" />
+  <a href="https://react-circle-flags.js.org/">
+    <img src="https://raw.githubusercontent.com/SanKyu-Lab/react-circle-flags/main/website/public/favicon.svg" alt="@sankyu/react-circle-flags" width="120" height="120" />
+  </a>
 </div>
 
 <div align="center">
 
-# @sankyu/react-circle-flags
+# `@sankyu/react-circle-flags`
 
-[![npm version](https://img.shields.io/npm/v/%40sankyu%2Freact-circle-flags?style=flat-square&label=%40sankyu%2Freact-circle-flags)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![npm downloads](https://img.shields.io/npm/dm/@sankyu/react-circle-flags.svg?style=flat-square&label=NPM%20Downloads)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/@sankyu/react-circle-flags?style=flat-square&label=Bundle%20Size)](https://bundlephobia.com/package/@sankyu/react-circle-flags)
+[![npm version](https://img.shields.io/npm/v/%40sankyu%2Freact-circle-flags?style=flat-square&label=%40sankyu%2Freact-circle-flags)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/@sankyu/react-circle-flags?style=flat-square&label=Bundle%20Size)](https://bundlephobia.com/package/@sankyu/react-circle-flags) [![npm downloads](https://img.shields.io/npm/dm/@sankyu/react-circle-flags.svg?style=flat-square&label=NPM%20Downloads)](https://www.npmjs.com/package/@sankyu/react-circle-flags) [![Last Commit](https://img.shields.io/github/last-commit/SanKyu-Lab/react-circle-flags?style=flat-square&label=Last%20Commit)](https://github.com/SanKyu-Lab/react-circle-flags/commits/main)
+
+<!-- CI/CD & Quality -->
 
 [![CI](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/ci.yml/badge.svg)](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/ci.yml) [![Release](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/release.yml/badge.svg)](https://github.com/SanKyu-Lab/react-circle-flags/actions/workflows/release.yml) [![codecov](https://codecov.io/gh/SanKyu-Lab/react-circle-flags/branch/main/graph/badge.svg?token=YHZ46T51AG)](https://codecov.io/gh/SanKyu-Lab/react-circle-flags)
 
-[![TypeScript Supported](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![React Ready](https://img.shields.io/badge/React-%3E%3D16.0.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=opensourceinitiative)](./LICENSE)
+[![TypeScript supported](https://img.shields.io/badge/TypeScript-supported-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![React Ready](https://badgen.net/bundlephobia/tree-shaking/@sankyu/react-circle-flags)](https://reactjs.org/) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=opensourceinitiative)](./LICENSE)
 
 ---
 
@@ -41,7 +45,7 @@ Perfect for applications that need fast, crisp country flags without external im
 - 🎨 **Inline SVG** - No external requests, works offline
 - 🔧 **Fully customizable** - All standard SVG props supported
 - 📱 **SSR compatible** - Works with `Next.js`, `Remix`, etc.
-- 🪶 **Lightweight** - Each flag is ~1-3KB
+- 🪶 **Lightweight** - Each flag is ~1KB
 
 ## 📦 Installation
 
@@ -76,65 +80,28 @@ export default function App() {
 }
 ```
 
+### Other usage examples
+
 > [!TIP]
 > For more information, you may refer to the [Usage Guide](https://react-circle-flags.js.org/docs/guides/getting-started/usage/).
 
-### With custom styling
-
-```tsx
-import { FlagUs } from '@sankyu/react-circle-flags'
-
-export default function StyledFlag() {
-  return (
-    <FlagUs
-      width={64}
-      height={64}
-      className="shadow-lg rounded-full"
-      style={{ border: '2px solid #000' }}
-    />
-  )
-}
-```
-
-### Dynamic flag selection
-
-> [!WARNING]
-> ⚠️ Using `DynamicFlag` or `import * as Flags` will pull all flag components into the bundle, which can reduce tree-shaking efficiency and increase bundle size.
-
-```tsx
-import { DynamicFlag } from '@sankyu/react-circle-flags'
-
-interface CountryFlagProps {
-  countryCode: string
-  size?: number
-}
-
-export const CountryFlag = ({ countryCode, size = 48 }: CountryFlagProps) => {
-  return <DynamicFlag code={countryCode} width={size} height={size} />
-}
-
-// Usage
-;<CountryFlag countryCode="us" size={64} />
-```
-
-> [!TIP]
-> For more information, you may refer to the [Dynamic Flag Selection](https://react-circle-flags.js.org/docs/guides/getting-started/dynamic-flags/) section in the documentation.
-
 ## 📚 API
 
-### Flag Components
+### Build Meta Information
 
-Each flag component accepts all standard SVG props:
+You can access the library's build meta information from the `buildMeta` export:
 
 ```tsx
-interface FlagProps extends SVGProps<SVGSVGElement> {
-  width?: number | string
-  height?: number | string
-  className?: string
-  style?: CSSProperties
-  // ... all other SVG props
-}
+import { buildMeta } from '@sankyu/react-circle-flags'
+
+console.log(buildMeta.version) // e.g., "1.2.3"
+console.log(buildMeta.builtAt) // e.g., 1760000000000 (timestamp)
+console.log(buildMeta.commit) // e.g., <example-sha256-hash>
 ```
+
+### Other Props
+
+...For more information, you may refer to the [API Reference](https://react-circle-flags.js.org/reference/api/interfaceflagcomponentprops/).
 
 ### Available Flags
 
@@ -169,7 +136,9 @@ All flag components are fully typed with TypeScript, providing autocomplete and 
 
 ## 📦 Bundle Size & Tree-shaking
 
-`@sankyu/react-circle-flags` is designed to be tree-shakable. Importing individual flags ensures that only the used flags are included in your bundle.
+`@sankyu/react-circle-flags` is designed to be tree-shakable.
+
+Importing individual flags ensures that only the used flags are included in your bundle.
 
 > [!TIP]
 > For more information, you may refer to the [Bundle Size & Tree-shaking Guide](https://react-circle-flags.js.org/docs/guides/getting-started/bundle-size/).
