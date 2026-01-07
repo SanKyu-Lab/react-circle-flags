@@ -418,26 +418,32 @@ describe('Registry and metadata', () => {
     expect(FLAG_REGISTRY.cn).toBe('FlagCn')
   })
 
-  test('buildMeta should include version, commit, and builtAt', () => {
+  test('buildMeta should include version, commit, circleFlagsCommit, and builtAt', () => {
     expect(buildMeta.version).toMatch(/^[0-9]+\./)
-    expect(buildMeta.commit).toBeTruthy()
-    expect(Number.isFinite(buildMeta.builtAt)).toBe(true)
+    expect(buildMeta.commitHash).toBeTruthy()
+    expect(buildMeta.circleFlagsCommitHash).toBeTruthy()
+    expect(Number.isFinite(buildMeta.builtTimestamp)).toBe(true)
   })
 
   test('buildMeta should use provided build-time constants when available', async () => {
     jest.resetModules()
     const mockCommit = 'abc123'
+    const mockCircleFlagsCommit = 'def456'
     const mockBuiltAt = '1700000000'
 
     ;(globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_COMMIT__ = mockCommit
+    ;(globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__ =
+      mockCircleFlagsCommit
     ;(globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_BUILT_AT__ = mockBuiltAt
 
     const metaModule = await import('./meta')
 
-    expect(metaModule.buildMeta.commit).toBe(mockCommit)
-    expect(metaModule.buildMeta.builtAt).toBe(Number(mockBuiltAt))
+    expect(metaModule.buildMeta.commitHash).toBe(mockCommit)
+    expect(metaModule.buildMeta.circleFlagsCommitHash).toBe(mockCircleFlagsCommit)
+    expect(metaModule.buildMeta.builtTimestamp).toBe(Number(mockBuiltAt))
 
     delete (globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_COMMIT__
+    delete (globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__
     delete (globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_BUILT_AT__
   })
 
@@ -448,8 +454,9 @@ describe('Registry and metadata', () => {
 
     const metaModule = await import('./meta')
 
-    expect(metaModule.buildMeta.builtAt).toBe(999999)
-    expect(metaModule.buildMeta.commit).toBe('dev')
+    expect(metaModule.buildMeta.builtTimestamp).toBe(999999)
+    expect(metaModule.buildMeta.commitHash).toBe('dev')
+    expect(metaModule.buildMeta.circleFlagsCommitHash).toBe('unknown')
 
     delete (globalThis as Record<string, unknown>).__REACT_CIRCLE_FLAGS_BUILT_AT__
     nowSpy.mockRestore()

@@ -95,8 +95,9 @@ You can access the library's build meta information from the `buildMeta` export:
 import { buildMeta } from '@sankyu/react-circle-flags'
 
 console.log(buildMeta.version) // e.g., "1.2.3"
-console.log(buildMeta.builtAt) // e.g., 1760000000000 (timestamp)
-console.log(buildMeta.commit) // e.g., <example-sha256-hash>
+console.log(buildMeta.builtTimestamp) // e.g., 1760000000000
+console.log(buildMeta.commitHash) // e.g., <example-sha256-hash>
+console.log(buildMeta.circleFlagsCommitHash) // e.g., <example-sha256-hash>
 ```
 
 ### Other Props

@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import { defineConfig } from 'tsup'
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -5,7 +6,25 @@ const external = ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runt
 
 const resolveCommit = () => {
   const env = process.env
-  return env.REACT_CIRCLE_FLAGS_COMMIT ?? env.GIT_COMMIT ?? 'dev'
+  if (env.REACT_CIRCLE_FLAGS_COMMIT) return env.REACT_CIRCLE_FLAGS_COMMIT
+  if (env.GIT_COMMIT) return env.GIT_COMMIT
+
+  try {
+    return execSync('git rev-parse HEAD', { encoding: 'utf-8' }).trim()
+  } catch {
+    return 'dev'
+  }
+}
+
+const resolveCircleFlagsCommit = () => {
+  const env = process.env
+  if (env.REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT) return env.REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT
+
+  try {
+    return execSync('git -C circle-flags rev-parse HEAD', { encoding: 'utf-8' }).trim()
+  } catch {
+    return 'unknown'
+  }
 }
 
 const resolveBuiltAt = () => {
@@ -18,6 +37,7 @@ const resolveBuiltAt = () => {
 
 const define = {
   __REACT_CIRCLE_FLAGS_COMMIT__: JSON.stringify(resolveCommit()),
+  __REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__: JSON.stringify(resolveCircleFlagsCommit()),
   __REACT_CIRCLE_FLAGS_BUILT_AT__: JSON.stringify(resolveBuiltAt()),
 }
 

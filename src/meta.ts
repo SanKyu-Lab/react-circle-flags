@@ -2,11 +2,13 @@ import pkg from '../package.json' assert { type: 'json' }
 
 export interface BuildMeta {
   version: string
-  commit: string
-  builtAt: number
+  commitHash: string
+  circleFlagsCommitHash: string
+  builtTimestamp: number
 }
 
 declare const __REACT_CIRCLE_FLAGS_COMMIT__: string
+declare const __REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__: string
 declare const __REACT_CIRCLE_FLAGS_BUILT_AT__: string
 
 const parseBuiltAt = (source: string) => {
@@ -17,6 +19,11 @@ const parseBuiltAt = (source: string) => {
 const commit =
   typeof __REACT_CIRCLE_FLAGS_COMMIT__ !== 'undefined' ? __REACT_CIRCLE_FLAGS_COMMIT__ : 'dev'
 
+const circleFlagsCommit =
+  typeof __REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__ !== 'undefined'
+    ? __REACT_CIRCLE_FLAGS_CIRCLE_FLAGS_COMMIT__
+    : 'unknown'
+
 const builtAt = parseBuiltAt(
   typeof __REACT_CIRCLE_FLAGS_BUILT_AT__ !== 'undefined'
     ? __REACT_CIRCLE_FLAGS_BUILT_AT__
@@ -25,6 +32,7 @@ const builtAt = parseBuiltAt(
 
 export const buildMeta: BuildMeta = {
   version: pkg.version,
-  commit,
-  builtAt,
+  commitHash: commit,
+  circleFlagsCommitHash: circleFlagsCommit,
+  builtTimestamp: builtAt,
 }
