@@ -3,7 +3,7 @@ import { withBasePath } from '../../routing/paths'
 import { buildMeta } from '@sankyu/react-circle-flags'
 
 export default function AppFooter() {
-  const { version, commitHash } = buildMeta
+  const { version, commitHash = 'dev' } = buildMeta
   const shortCommit = commitHash === 'dev' ? 'dev' : commitHash.slice(0, 7)
 
   return (
