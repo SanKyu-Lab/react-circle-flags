@@ -1,3 +1,32 @@
+## [1.4.3](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.2...v1.4.3) (2026-01-07)
+
+### Features
+
+* **docs:** Update README for improved readability ([4acf329](https://github.com/SanKyu-Lab/react-circle-flags/commit/4acf3296d3ba75af0fcd3a96dc75532cf87bddd8))
+* **type-doc:** Enhance API docs generation and update related configs ([108d2ba](https://github.com/SanKyu-Lab/react-circle-flags/commit/108d2ba4acfe66d04a0acd61cd9830aa81d3d4c2))
+* **website:** Add `starlight-llms-txt` plugin to improve docs ([16a23e0](https://github.com/SanKyu-Lab/react-circle-flags/commit/16a23e0977818cc095bc9371d98348f23095901b))
+* **website:** Add click navigation for language switcher flags ([dc6f923](https://github.com/SanKyu-Lab/react-circle-flags/commit/dc6f9239dc8a96ae3cbabe8bf4df85303619e5d8))
+* **website:** Add country code clear control in filters ([a2ff31a](https://github.com/SanKyu-Lab/react-circle-flags/commit/a2ff31abf1b23efbc073ee89fd058dd0bdc60abd))
+* **website:** Add countrycode query parameter for flag filtering ([3dbbbf4](https://github.com/SanKyu-Lab/react-circle-flags/commit/3dbbbf44d0fddbf67f047dc2572db9b49c52352d))
+* **website:** Add documentation links to quick start code blocks ([01b58f2](https://github.com/SanKyu-Lab/react-circle-flags/commit/01b58f2ae854c2c007e7794263d2e425d83e440e))
+* **website:** Add github tab to package manager tabs ([d91d3f8](https://github.com/SanKyu-Lab/react-circle-flags/commit/d91d3f87523747298f0d42612e141af7cd8bf5a8))
+* **website:** Add Google site verification meta tag ([46a111f](https://github.com/SanKyu-Lab/react-circle-flags/commit/46a111f08d2467d052032177bc6f463f03938bc1))
+* **website:** Add optimized font loading ([37a58ae](https://github.com/SanKyu-Lab/react-circle-flags/commit/37a58ae13c8974bcce49a5cee494a2908255c819))
+* **website:** Align guide buttons within code blocks ([6836f45](https://github.com/SanKyu-Lab/react-circle-flags/commit/6836f45a5efa5f564e269306f2184e69e5a8a48a))
+* **website:** Align quick start guide buttons with quickstart style ([de02205](https://github.com/SanKyu-Lab/react-circle-flags/commit/de02205bb1844dc2b1d9bc8da98f65ad9b23db65))
+* **website:** Optimize flag gallery size for mobile devices ([ea7e761](https://github.com/SanKyu-Lab/react-circle-flags/commit/ea7e76114ff370417ab73dd28362b41872195d85))
+* **website:** Update quick start code block background color ([f6e64b6](https://github.com/SanKyu-Lab/react-circle-flags/commit/f6e64b6478d4ad51c87cbe092df17693e6ba95ad))
+* **website:** Update style, optimize user interface ([e69c8a3](https://github.com/SanKyu-Lab/react-circle-flags/commit/e69c8a3a3583f0b0a83e27a793695374738209b3))
+
+### Bug Fixes
+
+* **docs:** Comment to suppress errors in API reference config ([427e890](https://github.com/SanKyu-Lab/react-circle-flags/commit/427e89053e339c4f4d4e16eff8afc7cf34c7fca2))
+* **docs:** Improve flag examples formatting and add missing line ([e000e32](https://github.com/SanKyu-Lab/react-circle-flags/commit/e000e3275754b4fa1f49dd2da9098a7fa926ac98))
+* **package:** Bump version to 1.4.3 ([c4857d9](https://github.com/SanKyu-Lab/react-circle-flags/commit/c4857d90a63cc7e4b93fe7396a1268d75add54ef))
+* **website:** Correct dropdown background color in flag filters ([add3220](https://github.com/SanKyu-Lab/react-circle-flags/commit/add322067ff0d46c0a33b47be1002d427b18ea6c))
+* **workflows:** Add permissions for auto updating ([05b5234](https://github.com/SanKyu-Lab/react-circle-flags/commit/05b5234f447660c7652da1362f751831b79c173f))
+* **workflows:** Correct workflow name for API docs update ([ac3d19e](https://github.com/SanKyu-Lab/react-circle-flags/commit/ac3d19e3cb6f729249b0a7176bd75dcf480ef6dd))
+* **workflows:** Update workflow triggers for API docs deployment ([6944fee](https://github.com/SanKyu-Lab/react-circle-flags/commit/6944feebb17900f19f79ba19b0a0c9663178e139))
 ## [1.4.2](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.1...v1.4.2) (2026-01-06)
 
 ### Features
