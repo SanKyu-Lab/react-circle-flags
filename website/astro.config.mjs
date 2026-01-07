@@ -66,6 +66,7 @@ export default defineConfig({
           entryPoints: ['../src/docs.ts'],
           tsconfig: '../tsconfig.json',
           output: 'reference/api',
+          // @ts-ignore
           publicPath: '/docs',
           sidebar: { label: 'API Reference', collapsed: false },
           typeDoc: {
