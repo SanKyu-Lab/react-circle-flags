@@ -5,7 +5,7 @@ prev: false
 title: "BuildMeta"
 ---
 
-Defined in: [meta.ts:3](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2429a2200877dbd65819a47db1cc8a3fc862b8f/src/meta.ts#L3)
+Defined in: [meta.ts:3](https://github.com/SanKyu-Lab/react-circle-flags/blob/fad52f94c3fdfdf901a1d9185e9de3910d481098/src/meta.ts#L3)
 
 ## Properties
 
@@ -15,7 +15,7 @@ Defined in: [meta.ts:3](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2
 builtTimestamp: number;
 ```
 
-Defined in: [meta.ts:7](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2429a2200877dbd65819a47db1cc8a3fc862b8f/src/meta.ts#L7)
+Defined in: [meta.ts:7](https://github.com/SanKyu-Lab/react-circle-flags/blob/fad52f94c3fdfdf901a1d9185e9de3910d481098/src/meta.ts#L7)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [meta.ts:7](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2
 circleFlagsCommitHash: string;
 ```
 
-Defined in: [meta.ts:6](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2429a2200877dbd65819a47db1cc8a3fc862b8f/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/SanKyu-Lab/react-circle-flags/blob/fad52f94c3fdfdf901a1d9185e9de3910d481098/src/meta.ts#L6)
 
 ***
 
@@ -35,7 +35,7 @@ Defined in: [meta.ts:6](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2
 commitHash: string;
 ```
 
-Defined in: [meta.ts:5](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2429a2200877dbd65819a47db1cc8a3fc862b8f/src/meta.ts#L5)
+Defined in: [meta.ts:5](https://github.com/SanKyu-Lab/react-circle-flags/blob/fad52f94c3fdfdf901a1d9185e9de3910d481098/src/meta.ts#L5)
 
 ***
 
@@ -45,4 +45,4 @@ Defined in: [meta.ts:5](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2
 version: string;
 ```
 
-Defined in: [meta.ts:4](https://github.com/SanKyu-Lab/react-circle-flags/blob/d2429a2200877dbd65819a47db1cc8a3fc862b8f/src/meta.ts#L4)
+Defined in: [meta.ts:4](https://github.com/SanKyu-Lab/react-circle-flags/blob/fad52f94c3fdfdf901a1d9185e9de3910d481098/src/meta.ts#L4)
