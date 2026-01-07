@@ -1,3 +1,13 @@
+## [1.5.0](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.3...v1.5.0) (2026-01-07)
+
+### Features
+
+* **metadata:** Enhance buildMeta structure ([c64a3f7](https://github.com/SanKyu-Lab/react-circle-flags/commit/c64a3f74b75060675df8d49e56ba2467b4a96c4f))
+* **website:** Update website to use commitHash and version ([d2429a2](https://github.com/SanKyu-Lab/react-circle-flags/commit/d2429a2200877dbd65819a47db1cc8a3fc862b8f))
+
+### Bug Fixes
+
+* **app-footer:** Set default value for commitHash to 'dev' ([0ec8d53](https://github.com/SanKyu-Lab/react-circle-flags/commit/0ec8d53a02202594c0462fdb0b70150687988e71))
 ## [1.4.3](https://github.com/SanKyu-Lab/react-circle-flags/compare/v1.4.2...v1.4.3) (2026-01-07)
 
 ### Features
