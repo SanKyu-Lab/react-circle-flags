@@ -1,5 +1,8 @@
 name: Auto Update API Documentation
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
