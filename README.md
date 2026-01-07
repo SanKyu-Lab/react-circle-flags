@@ -22,6 +22,8 @@
 
 :rocket: **Explore the [Demo Gallery](https://react-circle-flags.js.org/browse)** | :book: **Read the [Documentation](https://react-circle-flags.js.org/docs/guides/getting-started/)**
 
+[![Edit react-circle-flags-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/nyy6vp) [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/react-circle-flags?file=src%2FApp.tsx&terminal=dev)
+
 </div>
 
 ---
