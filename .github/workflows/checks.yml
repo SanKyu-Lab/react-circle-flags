@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Checks
 
 on:
@@ -6,36 +5,36 @@ on:
     inputs:
       node-version:
         type: string
-        required: false
-        default: 22.x
+        required: true
+        default: 24.x
       ensure-generated-clean:
         type: boolean
-        required: false
-        default: true
+        required: true
+        default: false
       upload-coverage:
         type: boolean
-        required: false
-        default: false
+        required: true
+        default: true
     secrets:
       CODECOV_TOKEN:
-        required: false
+        required: true
   workflow_dispatch:
     inputs:
       node-version:
         description: Node.js version
         type: string
-        required: false
-        default: 22.x
+        required: true
+        default: 24.x
       ensure-generated-clean:
         description: Fail if generated files changed
         type: boolean
-        required: false
-        default: true
+        required: true
+        default: false
       upload-coverage:
         description: Upload coverage to Codecov (requires CODECOV_TOKEN)
         type: boolean
-        required: false
-        default: false
+        required: true
+        default: true
 
 jobs:
   check:
@@ -44,7 +43,7 @@ jobs:
     env:
       TURBO_CACHE_DIR: .turbo
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         check:
           - id: format
@@ -60,7 +59,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Setup pnpm + Node.js
         uses: ./.github/actions/setup-pnpm
@@ -83,7 +82,7 @@ jobs:
           files: ./coverage/react/lcov.info,./coverage/vue/lcov.info,./coverage/solid/lcov.info,./coverage/svelte/lcov.info
           flags: unittests
           name: codecov-umbrella
-          fail_ci_if_error: false
+          fail_ci_if_error: true
 
       - name: Write job summary
         if: always()
