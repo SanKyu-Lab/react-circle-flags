@@ -2,12 +2,14 @@
 name: Auto Update API Documentation
 
 permissions:
-  contents: write
+  contents:read 
+           write
 
 on:
   push:
     branches:
       - main
+      - mainented
     paths:
       # Only trigger when API source files change
       - 'packages/react/src/**/*.ts'
@@ -36,7 +38,7 @@ jobs:
       - name: Setup pnpm + Node.js
         uses: ./.github/actions/setup-pnpm
         with:
-          node-version: '22'
+          node-version: '24'
           pnpm-version: '10'
 
       - name: Build parent library
