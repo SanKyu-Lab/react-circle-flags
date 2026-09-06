@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/svelte'
 import {
   CircleFlag,
   DynamicFlag,
+  LazyFlag,
   FlagUs,
   FlagGb,
   FlagJp,
@@ -70,6 +71,23 @@ describe('@sankyu/svelte-circle-flags', () => {
     const svg = container.querySelector('svg')
     expect(svg).toBeTruthy()
     expect(svg?.querySelector('title')?.textContent).toBe('GB')
+  })
+
+  it('renders LazyFlag after its async chunk resolves', async () => {
+    const { container } = render(LazyFlag, { props: { code: 'us', width: 32 } })
+    await waitFor(() => {
+      expect(container.querySelector('svg')).toBeTruthy()
+    })
+    expect(container.querySelector('svg')?.getAttribute('width')).toBe('32')
+    expect(container.querySelector('mask')?.id).toBe('cf-us-a')
+  })
+
+  it('resolves LazyFlag unknown codes to the XX fallback flag', async () => {
+    const { container } = render(LazyFlag, { props: { code: 'not-a-code' } })
+    await waitFor(() => {
+      expect(container.querySelector('svg')).toBeTruthy()
+    })
+    expect(container.querySelector('title')?.textContent).toBe('XX')
   })
 
   it('renders DynamicFlag fallback for invalid code', () => {

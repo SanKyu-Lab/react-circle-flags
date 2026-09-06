@@ -301,6 +301,28 @@ ${flags
   await writeFile(`${SVELTE_OUTPUT_DIR}/index.ts`, svelteIndexContent, 'utf-8')
   console.log('✅ Generated svelte generated/flags/index.ts\n')
 
+  const svelteLazyContent = `// Auto-generated lazy loaders: one dynamic import per flag
+// Bundlers code-split each entry, so runtime country codes only fetch the
+// flag actually rendered instead of paying for all 430+ components upfront.
+import type { Component } from 'svelte'
+
+export type FlagLoader = () => Promise<{ default: Component }>
+
+export const flagLoaders = {
+${flags
+  .map(f => {
+    const target = f.aliasOf ?? f.code
+    return `  ${JSON.stringify(f.code)}: () => import('./${target}.svelte'),`
+  })
+  .join('\n')}
+} satisfies Record<string, FlagLoader>
+
+export type LazyFlagCode = keyof typeof flagLoaders
+`
+
+  await writeFile(`${SVELTE_OUTPUT_DIR}/lazy.ts`, svelteLazyContent, 'utf-8')
+  console.log('✅ Generated svelte generated/flags/lazy.ts\n')
+
   const aliases = {}
   for (const flag of flags) {
     if (flag.aliasOf) aliases[flag.code] = flag.aliasOf

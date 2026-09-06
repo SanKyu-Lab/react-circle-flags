@@ -9,6 +9,7 @@ import {
 
 export { default as CircleFlag } from './CircleFlag.svelte'
 export { default as DynamicFlag } from './DynamicFlag.svelte'
+export { default as LazyFlag } from './LazyFlag.svelte'
 export type { CircleFlagProps, DynamicFlagProps, FlagComponentProps } from './types'
 
 export { FlagSizes, getSizeName }

@@ -147,6 +147,24 @@ Act as an expert Web Engineer. Reference: https://react-circle-flags.js.org/llms
 > 400+ flags (~600 KB, no tree-shaking). Prefer named imports when possible. If runtime codes
 > are bounded, use a finite named-import map.
 
+### Lazy flag selection (runtime codes, code-split)
+
+```svelte
+<script>
+  import { LazyFlag } from '@sankyu/svelte-circle-flags'
+
+  let countryCode = $state('us')
+</script>
+
+<LazyFlag code={countryCode} width={48} height={48} />
+```
+
+> [!TIP]
+> `LazyFlag` renders runtime codes without bundling every flag: each flag ships
+> as its own async chunk, so only the rendered flags are ever downloaded.
+> Use it when codes are unbounded at build time and bundle size matters.
+> It renders nothing (or the `fallback` snippet) until the chunk resolves.
+
 ### Deep imports
 
 You can also import individual flags directly. This is useful for dynamic imports or when you want to avoid loading the full index:
