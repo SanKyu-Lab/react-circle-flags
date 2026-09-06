@@ -2,6 +2,33 @@ import { getCountryName } from './names.mjs'
 import { codeToComponentName, codeToEmoji } from './utils.mjs'
 
 /**
+ * Rewrite SVG `id="…"` definitions and their `url(#…)` / `href="#…"`
+ * references with a per-flag namespace.
+ *
+ * Inline-rendered flag components share the host document, so upstream ids
+ * like `id="a"` would collide across flags on the same page and with any
+ * third-party inline SVG, making mask/gradient/filter references resolve to
+ * the wrong node. Namespacing keeps every inlined artwork self-contained.
+ */
+export function namespaceSvgIds(innerContent, code) {
+  const ids = new Set()
+  for (const match of innerContent.matchAll(/\bid="([^"]+)"/g)) {
+    ids.add(match[1])
+  }
+  if (ids.size === 0) return innerContent
+
+  let scoped = innerContent
+  for (const id of ids) {
+    const namespaced = `cf-${code}-${id}`
+    scoped = scoped.replaceAll(`id="${id}"`, `id="${namespaced}"`)
+    scoped = scoped.replaceAll(`url(#${id})`, `url(#${namespaced})`)
+    // Also covers `xlink:href="#id"` since the prefix survives the replace.
+    scoped = scoped.replaceAll(`href="#${id}"`, `href="#${namespaced}"`)
+  }
+  return scoped
+}
+
+/**
  * Convert SVG string to React component string
  */
 export function svgToReactComponent(svg, code) {
@@ -40,6 +67,9 @@ export function svgToReactComponent(svg, code) {
 
   // Remove existing title to avoid duplication
   innerContent = innerContent.replace(/<title[^>]*>[^<]*<\/title>/, '').trim()
+
+  // Keep inlined defs (mask/gradient/filter ids) collision-free per flag
+  innerContent = namespaceSvgIds(innerContent, code)
 
   const componentName = codeToComponentName(code)
   const countryName = getCountryName(code)
@@ -122,6 +152,9 @@ export function svgToVueComponent(svg, code) {
 
   // Remove existing title to avoid duplication
   innerContent = innerContent.replace(/<title[^>]*>[^<]*<\/title>/, '').trim()
+
+  // Keep inlined defs (mask/gradient/filter ids) collision-free per flag
+  innerContent = namespaceSvgIds(innerContent, code)
 
   const componentName = codeToComponentName(code)
   const countryName = getCountryName(code)
@@ -212,6 +245,9 @@ export function svgToSolidComponent(svg, code) {
 
   // Remove existing title to avoid duplication
   innerContent = innerContent.replace(/<title[^>]*>[^<]*<\/title>/, '').trim()
+
+  // Keep inlined defs (mask/gradient/filter ids) collision-free per flag
+  innerContent = namespaceSvgIds(innerContent, code)
 
   const componentName = codeToComponentName(code)
   const countryName = getCountryName(code)
@@ -304,6 +340,9 @@ export function svgToSvelteComponent(svg, code) {
 
   // Remove existing title to avoid duplication
   innerContent = innerContent.replace(/<title[^>]*>[^<]*<\/title>/, '').trim()
+
+  // Keep inlined defs (mask/gradient/filter ids) collision-free per flag
+  innerContent = namespaceSvgIds(innerContent, code)
 
   const componentName = codeToComponentName(code)
   const countryName = getCountryName(code)

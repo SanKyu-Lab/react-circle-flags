@@ -52,6 +52,19 @@ describe('@sankyu/svelte-circle-flags', () => {
     expect(svg?.querySelector('title')?.textContent).toBe('US')
   })
 
+  it('namespaces inline SVG ids per flag to avoid document-wide collisions', () => {
+    const { container } = render(FlagUs, { props: { width: 32 } })
+    const mask = container.querySelector('mask')
+    expect(mask?.id).toBe('cf-us-a')
+    expect(container.innerHTML).toContain('url(#cf-us-a)')
+
+    render(FlagJp, { props: { width: 32 } })
+    const jpMask = document.querySelector('mask[id^="cf-jp-"]')
+    expect(jpMask).toBeTruthy()
+    // No bare upstream ids leak into the shared document
+    expect(document.querySelectorAll('[id="a"]')).toHaveLength(0)
+  })
+
   it('renders DynamicFlag with a valid code', () => {
     const { container } = render(DynamicFlag, { props: { code: 'gb', width: 48 } })
     const svg = container.querySelector('svg')

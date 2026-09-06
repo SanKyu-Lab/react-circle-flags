@@ -49,6 +49,14 @@ describe('Main exports', () => {
   })
 })
 
+describe('Generated flag component', () => {
+  test('namespaces inline SVG ids per flag to avoid document-wide collisions', () => {
+    const { container } = render(<FlagUs width={32} />)
+    expect(container.querySelector('mask')?.id).toBe('cf-us-a')
+    expect(container.innerHTML).toContain('url(#cf-us-a)')
+  })
+})
+
 describe('CircleFlag component', () => {
   test('should render with default props', () => {
     render(<CircleFlag countryCode="us" />)

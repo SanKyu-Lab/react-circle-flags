@@ -2,11 +2,18 @@ import { describe, expect, it, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
 import { CircleFlag, DynamicFlag, FlagUtils } from './index'
+import { FlagUs } from '../generated/flags/us'
 
 describe('@sankyu/vue-circle-flags', () => {
   it('FlagUtils.isValidCountryCode works', () => {
     expect(FlagUtils.isValidCountryCode('us')).toBe(true)
     expect(FlagUtils.isValidCountryCode('zzzz')).toBe(false)
+  })
+
+  it('namespaces inline SVG ids per flag to avoid document-wide collisions', () => {
+    const wrapper = mount(FlagUs, { props: { width: 32 } })
+    expect(wrapper.find('mask').attributes('id')).toBe('cf-us-a')
+    expect(wrapper.html()).toContain('url(#cf-us-a)')
   })
 
   it('DynamicFlag renders fallback for unknown code', () => {
