@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 import { outExtensionMjsCjs } from '../../scripts/tsup/shared.mjs'
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/generated/svgs/index.ts', 'src/generated/svgs/*.ts'],
+  entry: ['src/index.ts', 'src/generated/svgs/*.ts'],
   format: ['cjs', 'esm'],
   // Per-flag subpath entries must inline their SVG: shared chunks would make
   // `@sankyu/circle-flags-core/svg/<code>` pull in every flag at once.

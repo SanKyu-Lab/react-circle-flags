@@ -19,7 +19,8 @@
     },
     "./svg/*": {
       "types": "./dist/generated/svgs/*.d.ts",
-      "import": "./dist/generated/svgs/*.mjs"
+      "import": "./dist/generated/svgs/*.mjs",
+      "require": "./dist/generated/svgs/*.cjs"
     }
   },
   "files": [
