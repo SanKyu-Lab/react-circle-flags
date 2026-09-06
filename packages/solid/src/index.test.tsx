@@ -8,10 +8,13 @@ describe('@sankyu/solid-circle-flags', () => {
   it('namespaces inline SVG ids per flag to avoid document-wide collisions', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
-    render(() => <FlagUs width={32} />, container)
+    const dispose = render(() => <FlagUs width={32} />, container)
     const mask = container.querySelector('mask')
+    const html = container.innerHTML
+    dispose()
+    container.remove()
     expect(mask?.id).toBe('cf-us-a')
-    expect(container.innerHTML).toContain('url(#cf-us-a)')
+    expect(html).toContain('url(#cf-us-a)')
   })
 
   it('FlagUtils.isValidCountryCode works', () => {

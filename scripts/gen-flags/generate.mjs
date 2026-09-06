@@ -59,8 +59,8 @@ function ensureCircleFlagsRepo() {
 
 const writeComponentsFromSvg = async (
   svgPath,
-  { reactPath, vuePath, solidPath, sveltePath },
-  { code, coreSvgPath }
+  { reactPath, vuePath, solidPath, sveltePath, coreSvgPath },
+  code
 ) => {
   const svgContent = await readFile(svgPath, 'utf-8')
   const react = svgToReactComponent(svgContent, code)
@@ -177,8 +177,9 @@ export async function generateFlags() {
           vuePath: vueOutputPath,
           solidPath: solidOutputPath,
           sveltePath: svelteOutputPath,
+          coreSvgPath: `${CORE_SVG_GENERATED_DIR}/${code}.ts`,
         },
-        { code, coreSvgPath: `${CORE_SVG_GENERATED_DIR}/${code}.ts` }
+        code
       )
 
       flags.push({
@@ -316,8 +317,6 @@ ${flags
   })
   .join('\n')}
 } satisfies Record<string, FlagLoader>
-
-export type LazyFlagCode = keyof typeof flagLoaders
 `
 
   await writeFile(`${SVELTE_OUTPUT_DIR}/lazy.ts`, svelteLazyContent, 'utf-8')
