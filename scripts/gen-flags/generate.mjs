@@ -5,6 +5,7 @@ import { basename } from 'node:path'
 import {
   CIRCLE_FLAGS_REPO,
   CORE_GENERATED_DIR,
+  CORE_SVG_GENERATED_DIR,
   FLAGS_DIR,
   REACT_OUTPUT_DIR,
   SOLID_OUTPUT_DIR,
@@ -59,7 +60,7 @@ function ensureCircleFlagsRepo() {
 const writeComponentsFromSvg = async (
   svgPath,
   { reactPath, vuePath, solidPath, sveltePath },
-  code
+  { code, coreSvgPath }
 ) => {
   const svgContent = await readFile(svgPath, 'utf-8')
   const react = svgToReactComponent(svgContent, code)
@@ -72,6 +73,13 @@ const writeComponentsFromSvg = async (
   await writeFile(solidPath, solid.componentCode, 'utf-8')
   await writeFile(sveltePath, svelte.componentCode, 'utf-8')
 
+  // Raw SVG passthrough: strip XML declaration like the component converters,
+  // otherwise keep upstream bytes intact so `<img>`/asset pipelines see the
+  // exact upstream artwork.
+  const rawSvg = svgContent.replace(/<\?xml.*?\?>\s*/g, '').trim()
+  const svgModule = `// Auto-generated raw SVG. Source: HatScripts/circle-flags.\nexport const svg: string = ${JSON.stringify(rawSvg)}\n`
+  await writeFile(coreSvgPath, svgModule, 'utf-8')
+
   return {
     svgSize: react.svgSize,
     optimizedSize: react.optimizedSize,
@@ -79,7 +87,7 @@ const writeComponentsFromSvg = async (
 }
 
 const writeAliasComponents = async (
-  { reactPath, vuePath, solidPath, sveltePath },
+  { reactPath, vuePath, solidPath, sveltePath, coreSvgPath },
   { componentName, targetCode, targetComponentName }
 ) => {
   const aliasContent = `export { ${targetComponentName} as ${componentName} } from './${targetCode}'\n`
@@ -89,6 +97,8 @@ const writeAliasComponents = async (
 
   const svelteAliasContent = `<script module lang="ts">\n  export { default as ${componentName} } from './${targetCode}.svelte'\n</script>\n`
   await writeFile(sveltePath, svelteAliasContent, 'utf-8')
+
+  await writeFile(coreSvgPath, `export { svg } from './${targetCode}'\n`, 'utf-8')
 }
 
 /**
@@ -105,6 +115,7 @@ export async function generateFlags() {
   await mkdir(SOLID_OUTPUT_DIR, { recursive: true })
   await mkdir(SVELTE_OUTPUT_DIR, { recursive: true })
   await mkdir(CORE_GENERATED_DIR, { recursive: true })
+  await mkdir(CORE_SVG_GENERATED_DIR, { recursive: true })
 
   const files = await readdir(FLAGS_DIR)
   const svgFiles = files.filter(f => f.endsWith('.svg'))
@@ -141,6 +152,7 @@ export async function generateFlags() {
               vuePath: vueOutputPath,
               solidPath: solidOutputPath,
               sveltePath: svelteOutputPath,
+              coreSvgPath: `${CORE_SVG_GENERATED_DIR}/${code}.ts`,
             },
             { componentName, targetCode, targetComponentName }
           )
@@ -166,7 +178,7 @@ export async function generateFlags() {
           solidPath: solidOutputPath,
           sveltePath: svelteOutputPath,
         },
-        code
+        { code, coreSvgPath: `${CORE_SVG_GENERATED_DIR}/${code}.ts` }
       )
 
       flags.push({
@@ -293,6 +305,24 @@ ${flags
   for (const flag of flags) {
     if (flag.aliasOf) aliases[flag.code] = flag.aliasOf
   }
+
+  const coreSvgBarrelContent = `// Auto-generated raw SVG exports for tree-shaking
+// Each SVG can be imported individually:
+//   import { svg as svgUs } from '@sankyu/circle-flags-core/svg/us'
+//   import { svgUs } from '@sankyu/circle-flags-core/svg'
+//
+// 📊 Total raw SVGs: ${flags.length}
+
+${flags
+  .map(f => {
+    const exportName = `svg${f.componentName.slice('Flag'.length)}`
+    return `export { svg as ${exportName} } from './${f.code}'`
+  })
+  .join('\n')}
+`
+
+  await writeFile(`${CORE_SVG_GENERATED_DIR}/index.ts`, coreSvgBarrelContent, 'utf-8')
+  console.log('✅ Generated core/src/generated/svgs/index.ts\n')
 
   const registry = {}
   for (const flag of flags) {

@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 import { outExtensionMjsCjs } from '../../scripts/tsup/shared.mjs'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/generated/svgs/index.ts', 'src/generated/svgs/*.ts'],
   format: ['cjs', 'esm'],
   dts: true,
   minify: true,

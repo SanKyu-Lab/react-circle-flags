@@ -11,6 +11,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./svg": {
+      "types": "./dist/generated/svgs/index.d.ts",
+      "import": "./dist/generated/svgs/index.mjs",
+      "require": "./dist/generated/svgs/index.cjs"
+    },
+    "./svg/*": {
+      "types": "./dist/generated/svgs/*.d.ts",
+      "import": "./dist/generated/svgs/*.mjs"
     }
   },
   "files": [
