@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Component, Snippet } from 'svelte'
-  import type { SVGAttributes } from 'svelte/elements'
   import { coerceFlagCode } from '@sankyu/circle-flags-core'
   import { flagLoaders } from './flags/lazy'
+  import type { FlagComponentProps } from './types'
 
   /**
    * Lazy-loading flag component for runtime country codes.
@@ -11,16 +11,14 @@
    * resolves. Bundlers split one chunk per flag, so only the rendered flags
    * are ever downloaded — unlike `DynamicFlag`, which bundles every flag.
    *
+   * Unlike `DynamicFlag` there is no `strict` mode: codes are always coerced
+   * and unknown values resolve to the `xx` placeholder chunk.
+   *
    * @example
    * <LazyFlag code={countryCode} width={32} height={32} />
    */
-  interface Props
-    extends Omit<SVGAttributes<SVGSVGElement>, 'width' | 'height' | 'title'> {
+  interface Props extends FlagComponentProps {
     code: string
-    width?: number | string
-    height?: number | string
-    className?: string
-    title?: string
     fallback?: Snippet
   }
 
@@ -44,9 +42,14 @@
   $effect(() => {
     let cancelled = false
     Flag = undefined
-    loadFlag?.().then(module => {
-      if (!cancelled) Flag = module.default
-    })
+    loadFlag
+      ?.()
+      .then(module => {
+        if (!cancelled) Flag = module.default
+      })
+      .catch(error => {
+        console.error(`LazyFlag: failed to load flag chunk for "${resolvedCode}"`, error)
+      })
     return () => {
       cancelled = true
     }
